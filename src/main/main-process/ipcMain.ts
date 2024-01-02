@@ -44,22 +44,7 @@ export const addIpcMain = () => {
     electronWindow.NumWindow.setBounds({ height: value })
   })
 
-  ipcMain.on('press-char', (_, value) => {
-    console.log(value)
-
-    return
-
-    if (value === 'enter') {
-      keyboard.pressKey(Key.Enter)
-
-      return
-    }
-
-    if (value === '.') {
-      keyboard.type(Key.Minus)
-      return
-    }
-
+  ipcMain.on('press-char', (_, value: Key) => {
     keyboard.type(value)
   })
 }

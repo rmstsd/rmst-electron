@@ -1,4 +1,4 @@
-# rmst-electron-new
+# rmst-tools
 
 An Electron application with React and TypeScript
 

@@ -1,10 +1,12 @@
-import { Menu, app, Tray } from 'electron'
+import { Menu, Tray } from 'electron'
 
-import { electronWindow, trayPath } from './electronWindow'
+import { electronWindow } from './electronWindow'
+
+import icon from '../../../resources/icon.png?asset'
 
 // 托盘图标
 export const createTray = () => {
-  const tray = new Tray(trayPath)
+  const tray = new Tray(icon)
 
   tray.on('click', () => {
     // electronWindow.circleWindow.show()
@@ -14,24 +16,10 @@ export const createTray = () => {
     {
       label: '设置',
       type: 'normal',
-      click: (menuItem, browserWindow, event) => {
+      click: () => {
         electronWindow.settingWindow?.show()
       }
     },
-    // {
-    //   label: 'note',
-    //   type: 'normal',
-    //   click: (menuItem, browserWindow, event) => {
-    //     electronWindow.NoteWindow?.show()
-    //   }
-    // },
-    // {
-    //   label: 'fanYi',
-    //   type: 'normal',
-    //   click: (menuItem, browserWindow, event) => {
-    //     electronWindow.YoudaoTranslateWindow?.show()
-    //   }
-    // },
     { label: '退出', type: 'normal', click: () => process.exit(0) }
   ])
   tray.setToolTip('rmst')

@@ -1,5 +1,5 @@
 appId: com.electron.app
-productName: rmst-electron-new
+productName: rmst-tools
 directories:
   buildResources: build
 files:
@@ -12,12 +12,18 @@ files:
 asarUnpack:
   - resources/**
 win:
-  executableName: rmst-electron-new
+  executableName: rmst-tools
+  icon: resources/icon.png
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
   uninstallDisplayName: ${productName}
   createDesktopShortcut: always
+  oneClick: false
+  language: '2052'
+  perMachine: true
+  allowToChangeInstallationDirectory: true
+  deleteAppDataOnUninstall: true
 mac:
   entitlementsInherit: build/entitlements.mac.plist
   extendInfo:

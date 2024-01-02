@@ -1,9 +1,9 @@
-import { Menu, ipcMain } from 'electron'
+import { Menu } from 'electron'
 
 import { createTray } from './main-process/createTray'
 import { createNumWindow, createSearchWindow, createSettingWindow } from './main-process/electronWindow'
 import { addIpcMain } from './main-process/ipcMain'
-import { addShortcut, addUiohook } from './main-process/uiohook'
+import { addShortcut } from './main-process/uiohook'
 
 export async function initElectronApp() {
   addIpcMain()
@@ -15,6 +15,5 @@ export async function initElectronApp() {
 
   createTray()
 
-  addUiohook()
   addShortcut()
 }
