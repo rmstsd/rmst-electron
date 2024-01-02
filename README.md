@@ -1,34 +1,6 @@
 # rmst-tools
 
-An Electron application with React and TypeScript
+个人日常使用
 
-## Recommended IDE Setup
-
-- [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
-
-## Project Setup
-
-### Install
-
-```bash
-$ yarn
-```
-
-### Development
-
-```bash
-$ yarn dev
-```
-
-### Build
-
-```bash
-# For windows
-$ yarn build:win
-
-# For macOS
-$ yarn build:mac
-
-# For Linux
-$ yarn build:linux
-```
+- alt + 空格: 快速使用 vscode 打开项目 (同时支持使用命令行打开) (需自行设置项目集合所在目录, 通过鼠标右击托盘图标)
+- alt + n: 屏幕数字小键盘, 对于非全尺寸键盘 输入数字更方便
