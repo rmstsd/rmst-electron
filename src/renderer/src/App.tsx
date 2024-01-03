@@ -4,11 +4,12 @@ import { useNavigate } from 'react-router-dom'
 import DirSearch from './components/DirSearch'
 import Setting from './components/Setting'
 import Num from './components/Num'
-import { useEffect } from 'react'
+import Note from './components/Note'
 
 const map = {
   DirSearch,
   Setting,
+  Note,
   Num
 }
 

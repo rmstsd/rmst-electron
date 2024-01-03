@@ -20,8 +20,16 @@ export const createTray = () => {
         electronWindow.settingWindow?.show()
       }
     },
+    {
+      label: 'note',
+      type: 'normal',
+      click: () => {
+        electronWindow.NoteWindow?.show()
+      }
+    },
     { label: '退出', type: 'normal', click: () => process.exit(0) }
   ])
+
   tray.setToolTip('rmst')
   tray.setContextMenu(contextMenu)
 }

@@ -73,4 +73,12 @@ export const addShortcut = () => {
       electronWindow.NumWindow.show()
     }
   })
+
+  globalShortcut.register('Alt+m', () => {
+    if (electronWindow.NoteWindow.isVisible()) {
+      electronWindow.NoteWindow.hide()
+    } else {
+      electronWindow.NoteWindow.show()
+    }
+  })
 }

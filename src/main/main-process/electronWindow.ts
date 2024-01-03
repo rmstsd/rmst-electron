@@ -2,8 +2,13 @@ import { is } from '@electron-toolkit/utils'
 import { BrowserWindow } from 'electron'
 import path from 'node:path'
 
-type IElectronWindow = { searchWindow: BrowserWindow; settingWindow: BrowserWindow; NumWindow: BrowserWindow }
-export const electronWindow: IElectronWindow = {} as IElectronWindow
+type IElectronWindow = {
+  searchWindow: BrowserWindow
+  settingWindow: BrowserWindow
+  NumWindow: BrowserWindow
+  NoteWindow: BrowserWindow
+}
+export const electronWindow = {} as IElectronWindow
 
 const preloadPath = path.join(__dirname, '../preload/index.js')
 
@@ -23,9 +28,7 @@ const loadWindow = (win: BrowserWindow, query: Record<string, string>) => {
   }
 }
 
-export const createSearchWindow = () => {
-  const preloadPath = path.join(__dirname, '../preload/index.js')
-
+function createSearchDirWindow() {
   const win = new BrowserWindow({
     frame: false,
     autoHideMenuBar: true,
@@ -44,14 +47,14 @@ export const createSearchWindow = () => {
   })
   loadWindow(win, { ui: 'DirSearch' })
 
-  electronWindow.searchWindow = win
-
   win.on('blur', () => {
     !is.dev && win.hide()
   })
+
+  return win
 }
 
-export const createSettingWindow = () => {
+function createSettingWindow() {
   const win = new BrowserWindow({
     icon,
     skipTaskbar: false,
@@ -61,16 +64,13 @@ export const createSettingWindow = () => {
       nodeIntegration: true
     }
   })
-  win.on('close', evt => {
-    evt.preventDefault()
-    win.hide()
-  })
+
   loadWindow(win, { ui: 'Setting' })
 
-  electronWindow.settingWindow = win
+  return win
 }
 
-export function createNumWindow() {
+function createNumWindow() {
   const win = new BrowserWindow({
     frame: false,
     skipTaskbar: false,
@@ -85,11 +85,31 @@ export function createNumWindow() {
       nodeIntegration: true
     }
   })
-  win.on('close', evt => {
-    evt.preventDefault()
-    win.hide()
-  })
+
   loadWindow(win, { ui: 'Num' })
 
-  electronWindow.NumWindow = win
+  return win
+}
+
+function createNoteWindow() {
+  const win = new BrowserWindow({
+    show: false,
+    webPreferences: {
+      preload: preloadPath,
+      nodeIntegration: true
+    }
+  })
+
+  loadWindow(win, { ui: 'Note' })
+
+  return win
+}
+
+export default function createWindow() {
+  electronWindow.searchWindow = createSearchDirWindow()
+  electronWindow.settingWindow = createSettingWindow()
+
+  electronWindow.NumWindow = createNumWindow()
+
+  electronWindow.NoteWindow = createNoteWindow()
 }

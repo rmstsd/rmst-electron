@@ -2,8 +2,9 @@ import { app, shell, BrowserWindow } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 
+import bootstrap, { launchAtStartup } from './bootstrap'
+
 import icon from '../../resources/icon.png?asset'
-import { initElectronApp } from './mainWindow'
 
 // This method will be called when Electron has finished initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -20,6 +21,11 @@ app.whenReady().then(() => {
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)
 
+    window.on('close', evt => {
+      evt.preventDefault()
+      window.hide()
+    })
+
     window.webContents.on('before-input-event', (event, input) => {
       if (input.type === 'keyDown') {
         if (input.code === 'F5') {
@@ -33,7 +39,7 @@ app.whenReady().then(() => {
     })
   })
 
-  initElectronApp()
+  bootstrap()
   // createWindow()
 
   app.on('activate', function () {
@@ -41,7 +47,7 @@ app.whenReady().then(() => {
     if (BrowserWindow.getAllWindows().length === 0) {
       // createWindow()
 
-      initElectronApp()
+      bootstrap()
     }
   })
 })
@@ -54,10 +60,6 @@ app.on('window-all-closed', () => {
 })
 
 // In this file you can include the rest of your app"s specific main process code. You can also put them in separate files and require them here.
-
-function launchAtStartup() {
-  app.setLoginItemSettings({ openAtLogin: true })
-}
 
 function createWindow(): void {
   // Create the browser window.

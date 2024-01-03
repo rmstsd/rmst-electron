@@ -40,6 +40,11 @@ export const addIpcMain = () => {
     clipboard.writeText(content)
   })
 
+  ipcMain.handle('get-note', () => store.get('note'))
+  ipcMain.handle('set-note', (_, value) => {
+    store.set('note', value)
+  })
+
   ipcMain.on('set-num-win-size', (_, value) => {
     electronWindow.NumWindow.setBounds({ height: value })
   })
