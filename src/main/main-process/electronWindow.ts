@@ -7,6 +7,7 @@ type IElectronWindow = {
   settingWindow: BrowserWindow
   NumWindow: BrowserWindow
   NoteWindow: BrowserWindow
+  RmstBrowserWindow: BrowserWindow
 }
 export const electronWindow = {} as IElectronWindow
 
@@ -105,6 +106,22 @@ function createNoteWindow() {
   return win
 }
 
+function createRmstBrowserWindow() {
+  const win = new BrowserWindow({
+    width: 1300,
+    height: 750,
+    webPreferences: {
+      preload: preloadPath,
+      nodeIntegration: true,
+      webviewTag: true
+    }
+  })
+
+  loadWindow(win, { ui: 'rmstBrowser' })
+
+  return win
+}
+
 export default function createWindow() {
   electronWindow.searchWindow = createSearchDirWindow()
   electronWindow.settingWindow = createSettingWindow()
@@ -112,4 +129,8 @@ export default function createWindow() {
   electronWindow.NumWindow = createNumWindow()
 
   electronWindow.NoteWindow = createNoteWindow()
+
+  if (is.dev) {
+    electronWindow.RmstBrowserWindow = createRmstBrowserWindow()
+  }
 }

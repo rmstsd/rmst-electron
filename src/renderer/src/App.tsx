@@ -5,12 +5,14 @@ import DirSearch from './components/DirSearch'
 import Setting from './components/Setting'
 import Num from './components/Num'
 import Note from './components/Note'
+import rmstBrowser from './components/rmstBrowser'
 
 const map = {
   DirSearch,
   Setting,
   Note,
-  Num
+  Num,
+  rmstBrowser
 }
 
 const keys = Object.keys(map)
@@ -23,7 +25,7 @@ function App() {
   const Component = map[query.ui]
 
   return (
-    <div>
+    <>
       <Popover
         style={{ padding: 0 }}
         position="bl"
@@ -43,7 +45,7 @@ function App() {
       </Popover>
 
       {Component ? <Component /> : '未匹配到组件'}
-    </div>
+    </>
   )
 }
 

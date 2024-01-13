@@ -15,7 +15,7 @@
     "build:linux": "electron-vite build && electron-builder --linux --config"
   },
   "dependencies": {
-    "@arco-design/web-react": "^2.58.0",
+    "@arco-design/web-react": "^2.58.3",
     "@electron-toolkit/preload": "^2.0.0",
     "@electron-toolkit/utils": "^2.0.0",
     "@nut-tree/nut-js": "^3.1.2",
@@ -26,7 +26,8 @@
     "node-cmd": "^5.0.0",
     "path-browserify": "^1.0.1",
     "react-router-dom": "^6.21.1",
-    "uiohook-napi": "^1.5.2"
+    "uiohook-napi": "^1.5.2",
+    "zustand": "^4.4.7"
   },
   "devDependencies": {
     "@electron-toolkit/tsconfig": "^1.0.1",
