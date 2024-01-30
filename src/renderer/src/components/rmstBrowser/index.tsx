@@ -1,6 +1,6 @@
 import { Button, Divider, Input, Menu, Tabs } from '@arco-design/web-react'
 import { IconLeft, IconRefresh, IconRight } from '@arco-design/web-react/icon'
-import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react'
+import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react'
 import { WebviewTag } from 'electron'
 
 import { useRmstStore } from '@renderer/store'
@@ -11,6 +11,58 @@ interface TabView {
   title: string
   url: string
   webview?: WebviewTag
+}
+
+const getPaneChildren = props => {
+  const { children } = props
+  const paneChildren = []
+  React.Children.forEach(children, child => {
+    if (child && child.type) {
+      paneChildren.push(child)
+    }
+  })
+  return paneChildren
+}
+
+const TabWrapper = (props: React.PropsWithChildren<{ activeKey: string }>) => {
+  const paneChildren = getPaneChildren(props)
+
+  console.log(paneChildren)
+
+  return (
+    <div>
+      {paneChildren.map(item => (
+        <TabPane key={item.key} isActive={item.key === props.activeKey}>
+          {item}
+        </TabPane>
+      ))}
+    </div>
+  )
+}
+
+const TabPaneItem = (props: React.PropsWithChildren<{ key: string }>) => {
+  return props.children
+}
+
+function TabsContent(props: React.PropsWithChildren) {
+  const activeKey = ''
+
+  return ['1', '2'].map(item => {
+    return <div style={item === activeKey ? null : { display: 'none' }}></div>
+  })
+}
+
+function TabPane(props) {
+  const shouldRender = useRef(false)
+  if (props.isActive) {
+    shouldRender.current = true
+  }
+
+  if (!shouldRender.current) {
+    return null
+  }
+
+  return props.children
 }
 
 const rmstBrowser = () => {
@@ -59,8 +111,11 @@ const rmstBrowser = () => {
   const [canGoBack, setCanGoBack] = useState(false)
   const [canGoForward, setCanGoForward] = useState(false)
 
+  const [ack, setAck] = useState('a')
+
   return (
     <div className="rmst-browser">
+      <h1>浏览器 开发中...</h1>
       <header className="tool-row">
         <Button type="text" size="large" icon={<IconLeft />} disabled={!canGoBack} />
         <Button type="text" size="large" icon={<IconRight />} disabled={!canGoForward} />
@@ -81,6 +136,12 @@ const rmstBrowser = () => {
       </header>
 
       <Divider style={{ margin: 0 }} />
+
+      <button onClick={() => setAck('b')}>b</button>
+      <TabWrapper activeKey={ack}>
+        <TabPaneItem key="a">a</TabPaneItem>
+        <TabPaneItem key="b">b</TabPaneItem>
+      </TabWrapper>
 
       <Tabs
         activeTab={activeIndex}
