@@ -5,7 +5,8 @@ import DirSearch from './components/DirSearch'
 import Setting from './components/Setting'
 import Num from './components/Num'
 import Note from './components/Note'
-import rmstBrowser from './components/rmstBrowser'
+
+import rmstBrowser from './rmstBrowser'
 
 const map = {
   DirSearch,
@@ -44,7 +45,14 @@ function App() {
         <div style={{ height: 5, position: 'fixed', left: 0, right: 0, zIndex: 5 }}></div>
       </Popover>
 
-      {Component ? <Component /> : '未匹配到组件'}
+      {Component ? (
+        <Component />
+      ) : (
+        <>
+          未匹配到组件
+          <a href="https://www.douyu.com">aa</a>
+        </>
+      )}
     </>
   )
 }

@@ -9,6 +9,11 @@
     "baseUrl": ".",
     "paths": {
       "@renderer/*": ["src/renderer/src/*"]
-    }
+    },
+
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitAny": false,
+    "noImplicitReturns": false
   }
 }

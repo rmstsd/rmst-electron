@@ -1,5 +1,5 @@
 import { is } from '@electron-toolkit/utils'
-import { BrowserWindow } from 'electron'
+import { BrowserWindow, shell } from 'electron'
 import path from 'node:path'
 
 type IElectronWindow = {
@@ -108,13 +108,38 @@ function createNoteWindow() {
 
 function createRmstBrowserWindow() {
   const win = new BrowserWindow({
+    frame: false,
     width: 1300,
     height: 750,
+    minWidth: 400,
+    minHeight: 360,
     webPreferences: {
       preload: preloadPath,
       nodeIntegration: true,
       webviewTag: true
     }
+  })
+
+  win.on('maximize', () => {
+    win.webContents.send('browser-size', true)
+  })
+  win.on('unmaximize', () => {
+    win.webContents.send('browser-size', false)
+  })
+
+  win.webContents.setWindowOpenHandler(details => {
+    shell.openExternal(details.url)
+    return { action: 'deny' }
+  })
+
+  win.webContents.on('did-attach-webview', (e, webContent) => {
+    webContent.setWindowOpenHandler(details => {
+      console.log(details)
+
+      win.webContents.send('create-tab', details.url)
+
+      return { action: 'deny' }
+    })
   })
 
   loadWindow(win, { ui: 'rmstBrowser' })

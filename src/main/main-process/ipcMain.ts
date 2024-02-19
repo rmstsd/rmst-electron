@@ -52,6 +52,11 @@ export const addIpcMain = () => {
   ipcMain.on('press-char', (_, value: Key) => {
     keyboard.type(value)
   })
+
+  ipcMain.handle('minimize', () => electronWindow.RmstBrowserWindow.minimize())
+  ipcMain.handle('maximize', () => electronWindow.RmstBrowserWindow.maximize())
+  ipcMain.handle('unmaximize', () => electronWindow.RmstBrowserWindow.unmaximize())
+  ipcMain.handle('close', () => electronWindow.RmstBrowserWindow.close())
 }
 
 const openSpawnDir = (_, dirPath) => {
