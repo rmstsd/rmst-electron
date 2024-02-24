@@ -10,6 +10,8 @@ import { Key, keyboard } from '@nut-tree/nut-js'
 
 const store = new Store()
 
+keyboard.config.autoDelayMs = 0
+
 export const addIpcMain = () => {
   ipcMain.on('hide-focused-win', () => BrowserWindow.getFocusedWindow()?.hide())
   ipcMain.on('open-external', (_, url) => shell.openExternal(url))
@@ -51,6 +53,13 @@ export const addIpcMain = () => {
 
   ipcMain.on('press-char', (_, value: Key) => {
     keyboard.type(value)
+  })
+
+  ipcMain.handle('copy-and-paste', async (_, value) => {
+    clipboard.writeText(value)
+
+    await keyboard.pressKey(Key.LeftControl, Key.V)
+    await keyboard.releaseKey(Key.LeftControl, Key.V)
   })
 
   ipcMain.handle('minimize', () => electronWindow.RmstBrowserWindow.minimize())

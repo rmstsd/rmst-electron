@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Button, Divider, Input, Space } from '@arco-design/web-react'
+import { Button, Divider, Input, Message, Space } from '@arco-design/web-react'
 
 const Note = () => {
   const [contentList, setContentList] = useState<string[]>([])
@@ -15,7 +15,9 @@ const Note = () => {
   }
 
   const updateContent = async () => {
-    window.electron.ipcRenderer.invoke('set-note', contentList)
+    window.electron.ipcRenderer.invoke('set-note', contentList).then(() => {
+      Message.success('更新成功')
+    })
   }
 
   return (

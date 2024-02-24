@@ -1,4 +1,4 @@
-import { useLayoutEffect } from 'react'
+import { useEffect, useLayoutEffect, useState } from 'react'
 // 来自 @nut-tree/nut-js
 
 enum Key {
@@ -139,15 +139,27 @@ enum Key {
 const Num = () => {
   useLayoutEffect(() => {
     window.electron.ipcRenderer.send('set-num-win-size', document.body.offsetHeight)
+  })
+
+  useEffect(() => {
+    getContent()
   }, [])
 
   const pressChar = (key: Key) => {
     window.electron.ipcRenderer.send('press-char', key)
   }
 
+  const [contentList, setContentList] = useState<string[]>([])
+
+  const getContent = () => {
+    window.electron.ipcRenderer.invoke('get-note').then(data => {
+      setContentList(data || [])
+    })
+  }
+
   return (
     <div style={{ userSelect: 'none' }}>
-      <header style={{ height: 14, backgroundColor: 'orange', display: 'flex' }}>
+      <header style={{ height: 30, backgroundColor: 'orange', display: 'flex' }}>
         <div className="win-drag" style={{ flexGrow: 1, cursor: 'move' }}></div>
         <button
           onClick={() => {
@@ -158,65 +170,89 @@ const Num = () => {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            cursor: 'pointer'
+            cursor: 'pointer',
+            width: 30,
+            height: 30
           }}
         >
           x
         </button>
       </header>
 
-      <div className="parent">
-        <button className="div1">rmst</button>
+      <main style={{ padding: 10 }}>
+        <div className="parent" style={{ paddingBottom: 0 }}>
+          <button className="div1">rmst</button>
 
-        <button className="div2" onClick={() => pressChar(Key.Divide)}>
-          /
-        </button>
-        <button className="div3" onClick={() => pressChar(Key.Multiply)}>
-          *
-        </button>
-        <button className="div4" onClick={() => pressChar(Key.Subtract)}>
-          -
-        </button>
-        <button className="div5" onClick={() => pressChar(Key.Num7)}>
-          7
-        </button>
-        <button className="div6" onClick={() => pressChar(Key.Num8)}>
-          8
-        </button>
-        <button className="div7" onClick={() => pressChar(Key.Num9)}>
-          9
-        </button>
-        <button className="div8" onClick={() => pressChar(Key.Add)}>
-          +
-        </button>
-        <button className="div9" onClick={() => pressChar(Key.Num4)}>
-          4
-        </button>
-        <button className="div10" onClick={() => pressChar(Key.Num5)}>
-          5
-        </button>
-        <button className="div11" onClick={() => pressChar(Key.Num6)}>
-          6
-        </button>
-        <button className="div12" onClick={() => pressChar(Key.Num1)}>
-          1
-        </button>
-        <button className="div13" onClick={() => pressChar(Key.Num2)}>
-          2
-        </button>
-        <button className="div14" onClick={() => pressChar(Key.Num3)}>
-          3
-        </button>
-        <button className="div15" onClick={() => pressChar(Key.Enter)}>
-          enter
-        </button>
-        <button className="div16" onClick={() => pressChar(Key.Num0)}>
-          0
-        </button>
-        <button className="div17" onClick={() => pressChar(Key.Decimal)}>
-          .
-        </button>
-      </div>
+          <button className="div2" onClick={() => pressChar(Key.Divide)}>
+            /
+          </button>
+          <button className="div3" onClick={() => pressChar(Key.Multiply)}>
+            *
+          </button>
+          <button className="div4" onClick={() => pressChar(Key.Subtract)}>
+            -
+          </button>
+          <button className="div5" onClick={() => pressChar(Key.Num7)}>
+            7
+          </button>
+          <button className="div6" onClick={() => pressChar(Key.Num8)}>
+            8
+          </button>
+          <button className="div7" onClick={() => pressChar(Key.Num9)}>
+            9
+          </button>
+          <button className="div8" onClick={() => pressChar(Key.Add)}>
+            +
+          </button>
+          <button className="div9" onClick={() => pressChar(Key.Num4)}>
+            4
+          </button>
+          <button className="div10" onClick={() => pressChar(Key.Num5)}>
+            5
+          </button>
+          <button className="div11" onClick={() => pressChar(Key.Num6)}>
+            6
+          </button>
+          <button className="div12" onClick={() => pressChar(Key.Num1)}>
+            1
+          </button>
+          <button className="div13" onClick={() => pressChar(Key.Num2)}>
+            2
+          </button>
+          <button className="div14" onClick={() => pressChar(Key.Num3)}>
+            3
+          </button>
+          <button className="div15" onClick={() => pressChar(Key.Enter)}>
+            enter
+          </button>
+          <button className="div16" onClick={() => pressChar(Key.Num0)}>
+            0
+          </button>
+          <button className="div17" onClick={() => pressChar(Key.Decimal)}>
+            .
+          </button>
+        </div>
+
+        <hr />
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {contentList.map((item, index) => (
+            <button
+              key={index}
+              style={{
+                display: 'block',
+                width: '100%',
+                height: 30,
+                textAlign: 'left',
+                cursor: 'pointer'
+              }}
+              onClick={() => window.electron.ipcRenderer.invoke('copy-and-paste', item)}
+            >
+              {item}
+            </button>
+          ))}
+        </div>
+      </main>
     </div>
   )
 }
