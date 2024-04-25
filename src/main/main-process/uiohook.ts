@@ -1,4 +1,4 @@
-import { BrowserWindow, globalShortcut } from 'electron'
+import { BrowserWindow, globalShortcut, screen } from 'electron'
 import { uIOhook, UiohookKey } from 'uiohook-napi'
 
 import { electronWindow } from './electronWindow'
@@ -15,13 +15,6 @@ export const addUiohook = () => {
     if (evt.keycode === UiohookKey.Escape) {
       BrowserWindow.getFocusedWindow()?.hide()
     }
-
-    // if (evt.keycode === UiohookKey.F8) {
-    //   electronWindow.YoudaoTranslateWindow.showInactive()
-    //   youdaoTranslate('').then(data => {
-    //     electronWindow.YoudaoTranslateWindow.webContents.send('fanyi-data', data)
-    //   })
-    // }
   })
 
   // uIOhook.on('mousemove', () => {
@@ -57,28 +50,22 @@ export const addUiohook = () => {
 
 export const addShortcut = () => {
   globalShortcut.register('Alt+Space', () => {
-    if (electronWindow.searchWindow.isVisible()) {
-      electronWindow.searchWindow.hide()
+    if (electronWindow.OpenDir.isVisible()) {
+      electronWindow.OpenDir.hide()
     } else {
-      electronWindow.searchWindow.show()
-      electronWindow.searchWindow.setSkipTaskbar(true)
-      electronWindow.searchWindow.removeMenu()
+      electronWindow.OpenDir.show()
+      electronWindow.OpenDir.setSkipTaskbar(true)
+      electronWindow.OpenDir.removeMenu()
     }
   })
 
   globalShortcut.register('Alt+n', () => {
-    if (electronWindow.NumWindow.isVisible()) {
-      electronWindow.NumWindow.hide()
+    if (electronWindow.QuickInput.isVisible()) {
+      electronWindow.QuickInput.hide()
     } else {
-      electronWindow.NumWindow.show()
-    }
-  })
-
-  globalShortcut.register('Alt+m', () => {
-    if (electronWindow.NoteWindow.isVisible()) {
-      electronWindow.NoteWindow.hide()
-    } else {
-      electronWindow.NoteWindow.show()
+      const cursorCoord = screen.getCursorScreenPoint()
+      electronWindow.QuickInput.setBounds({ x: cursorCoord.x - 10, y: cursorCoord.y - 10 })
+      electronWindow.QuickInput.show()
     }
   })
 }

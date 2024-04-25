@@ -1,18 +1,16 @@
 import { Button, Popover, Space } from '@arco-design/web-react'
 import { useNavigate } from 'react-router-dom'
 
-import DirSearch from './components/DirSearch'
+import OpenDir from './components/OpenDir'
 import Setting from './components/Setting'
-import Num from './components/Num'
-import Note from './components/Note'
+import QuickInput from './components/QuickInput'
 
 import rmstBrowser from './rmstBrowser'
 
 const map = {
-  DirSearch,
+  OpenDir,
   Setting,
-  Note,
-  Num,
+  QuickInput,
   rmstBrowser
 }
 

@@ -17,14 +17,7 @@ export const createTray = () => {
       label: '设置',
       type: 'normal',
       click: () => {
-        electronWindow.settingWindow?.show()
-      }
-    },
-    {
-      label: 'note',
-      type: 'normal',
-      click: () => {
-        electronWindow.NoteWindow?.show()
+        electronWindow.SettingWindow?.show()
       }
     },
     { label: '退出', type: 'normal', click: () => process.exit(0) }

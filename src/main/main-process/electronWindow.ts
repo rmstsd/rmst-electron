@@ -3,10 +3,9 @@ import { BrowserWindow, shell } from 'electron'
 import path from 'node:path'
 
 type IElectronWindow = {
-  searchWindow: BrowserWindow
-  settingWindow: BrowserWindow
-  NumWindow: BrowserWindow
-  NoteWindow: BrowserWindow
+  SettingWindow: BrowserWindow
+  OpenDir: BrowserWindow
+  QuickInput: BrowserWindow
   RmstBrowserWindow: BrowserWindow
 }
 export const electronWindow = {} as IElectronWindow
@@ -29,7 +28,7 @@ const loadWindow = (win: BrowserWindow, query: Record<string, string>) => {
   }
 }
 
-function createSearchDirWindow() {
+function createOpenDirWindow() {
   const win = new BrowserWindow({
     frame: false,
     autoHideMenuBar: true,
@@ -46,7 +45,7 @@ function createSearchDirWindow() {
       nodeIntegration: true
     }
   })
-  loadWindow(win, { ui: 'DirSearch' })
+  loadWindow(win, { ui: 'OpenDir' })
 
   win.on('blur', () => {
     !is.dev && win.hide()
@@ -71,12 +70,12 @@ function createSettingWindow() {
   return win
 }
 
-function createNumWindow() {
+function createQuickInputWindow() {
   const win = new BrowserWindow({
     frame: false,
     skipTaskbar: false,
     show: false,
-    focusable: false,
+    // focusable: false,
     resizable: false,
     width: 240,
     height: 320,
@@ -87,21 +86,7 @@ function createNumWindow() {
     }
   })
 
-  loadWindow(win, { ui: 'Num' })
-
-  return win
-}
-
-function createNoteWindow() {
-  const win = new BrowserWindow({
-    show: false,
-    webPreferences: {
-      preload: preloadPath,
-      nodeIntegration: true
-    }
-  })
-
-  loadWindow(win, { ui: 'Note' })
+  loadWindow(win, { ui: 'QuickInput' })
 
   return win
 }
@@ -148,14 +133,11 @@ function createRmstBrowserWindow() {
 }
 
 export default function createWindow() {
-  electronWindow.searchWindow = createSearchDirWindow()
-  electronWindow.settingWindow = createSettingWindow()
-
-  electronWindow.NumWindow = createNumWindow()
-
-  electronWindow.NoteWindow = createNoteWindow()
+  electronWindow.SettingWindow = createSettingWindow()
+  electronWindow.OpenDir = createOpenDirWindow()
+  electronWindow.QuickInput = createQuickInputWindow()
 
   if (is.dev) {
-    electronWindow.RmstBrowserWindow = createRmstBrowserWindow()
+    // electronWindow.RmstBrowserWindow = createRmstBrowserWindow()
   }
 }

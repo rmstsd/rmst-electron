@@ -9,11 +9,14 @@ body,
 }
 body {
   margin: 0;
-  overflow: hidden;
+  // overflow: hidden;
 }
 
 .win-drag {
   -webkit-app-region: drag;
+}
+.win-not-drag {
+  -webkit-app-region: no-drag;
 }
 
 .tool-bar {
@@ -98,11 +101,11 @@ body {
 }
 
 .parent {
-  height: 300px;
+  height: 180px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(5, 1fr);
-  grid-gap: 10px;
+  grid-gap: 3%;
 }
 
 .parent button {
@@ -111,6 +114,16 @@ body {
 
 .div1 {
   grid-area: 1 / 1 / 2 / 2;
+  background-color: orange;
+  position: relative;
+
+  button {
+    position: absolute;
+    top: 0;
+    left: 0;
+    scale: 0.85;
+    transform-origin: left top;
+  }
 }
 .div2 {
   grid-area: 1 / 2 / 2 / 3;
@@ -162,4 +175,14 @@ body {
 }
 .div18 {
   grid-area: 5 / 3 / 6 / 4;
+}
+
+.sticky-top-0 {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+  margin-top: 0 !important;
+  padding: 10px 0;
 }
