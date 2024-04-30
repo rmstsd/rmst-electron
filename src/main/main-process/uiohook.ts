@@ -51,6 +51,7 @@ export const addUiohook = () => {
 export const addShortcut = () => {
   globalShortcut.register('Alt+Space', () => {
     if (electronWindow.OpenDir.isVisible()) {
+      electronWindow.OpenDir.minimize()
       electronWindow.OpenDir.hide()
     } else {
       electronWindow.OpenDir.show()
