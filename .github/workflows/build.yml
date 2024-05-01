@@ -1,62 +1,50 @@
+# 此工作流的名字
 name: Build
-
+# 工作流的执行时机，可以设定为定时执行，每次push后执行，手动执行等
 on:
-  push:
-    branches:
-      - master
-
+  # workflow_dispatch为在Github仓库的Actions面板中手动执行
+  workflow_dispatch:
+# 工作/任务，这里的工作是可以并行的。
 jobs:
-  release:
-    name: build and release electron app
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [windows-latest, macos-latest, ubuntu-latest]
-
+  # 工作的名称“编译windows版”
+  buildwin:
+    # 运行的操作系统 windows server 2022
+    runs-on: windows-2022
+    # 步骤
     steps:
-      - name: Check out git repository
-        uses: actions/checkout@v3.0.0
-
-      - name: Install Node.js
-        uses: actions/setup-node@v3.0.0
+      # 使用预制action：拉取最新的代码
+      - uses: actions/checkout@v2
+      # 步骤一的名称：
+      - name: Install and Build
+        # 该步骤运行的终端命令，进入仓库的src目录，安装依赖，运行编译命令
+        run: npm install && npm run build:win
+      # 步骤二的名称：将编译后的结果上传
+      - name: Upload File
+        # 使用预制action：上传文件，可以将执行路径打包成zip上传
+        uses: actions/upload-artifact@v2
         with:
-          node-version: '18'
-
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Build Electron App
-        run: npm run build:win
-        # env:
-        # GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-
-      - name: Cleanup Artifacts for Windows
-        if: matrix.os == 'windows-latest'
-        run: |
-          npx rimraf "dist/!(*.exe)"
-
-      - name: Cleanup Artifacts for MacOS
-        if: matrix.os == 'macos-latest'
-        run: |
-          npx rimraf "dist/!(*.dmg)"
-
-      - name: Cleanup Artifacts for Linux
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          npx rimraf "dist/!(*.AppImage)"
-
-      - name: upload artifacts
-        uses: actions/upload-artifact@v3.0.0
-        with:
-          name: ${{ matrix.os }}
-          path: dist
-
-      - name: release
-        uses: softprops/action-gh-release@v0.1.14
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          files: 'dist/**'
-        env:
-          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          # 上传后文件的名称
+          name: windows
+          # 打包的路径以及文件过滤，此为仅打包dist目录下的exe文件
+          path: dist/*exe
+  # # 工作的名称“编译macOS版”
+  # buildmac:
+  #   # 运行的操作系统 macOS BigSur
+  #   runs-on: macos-11
+  #   # 步骤
+  #   steps:
+  #     # 使用预制action：拉取最新的代码
+  #     - uses: actions/checkout@v2
+  #     # 步骤一的名称：
+  #     - name: Install and Build
+  #       # 该步骤运行的终端命令，进入仓库的src目录，安装依赖，运行编译命令
+  #       run: cd src && npm install && npm run buildmac
+  #     # 步骤二的名称：将编译后的结果上传
+  #     - name: Upload File
+  #       # 使用预制action：上传文件，可以将执行路径打包成zip上传
+  #       uses: actions/upload-artifact@v2
+  #       with:
+  #         # 上传后文件的名称
+  #         name: mac
+  #         # 打包的路径以及文件过滤，此为仅打包dist目录下的dmg文件
+  #         path: dist/*dmg
