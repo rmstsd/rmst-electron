@@ -28,10 +28,16 @@ jobs:
           # 打包的路径以及文件过滤，此为仅打包dist目录下的exe文件
           path: dist/*.exe
 
-      - name: Release
-        uses: softprops/action-gh-release@v2
+      - name: Create Release and Upload Release Asset
+        uses: softprops/action-gh-release@v1
         with:
-          files: dist/*.exe
+          tag_name: ${{ github.ref }}
+          name: Release ${{ github.ref }}
+          body: todo New Release.
+          draft: false
+          prerelease: false
+          files: |
+            dist/*.exe
   # # 工作的名称“编译macOS版”
   # buildmac:
   #   # 运行的操作系统 macOS BigSur
