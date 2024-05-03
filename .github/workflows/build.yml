@@ -44,9 +44,6 @@ jobs:
       - run: yarn install
       - run: yarn run build:win
 
-      - run: cd dist
-      - run: ls
-
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
