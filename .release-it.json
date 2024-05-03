@@ -1,0 +1,9 @@
+{
+  "git": {
+    "requireBranch": "master",
+    "commitMessage": "chore(release): release v${version}",
+    "commit": true,
+    "tag": true,
+    "push": true
+  }
+}
