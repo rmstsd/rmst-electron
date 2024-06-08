@@ -166,11 +166,15 @@ const Num = () => {
     })
   }
 
+  function hideNumWin() {
+    window.electron.ipcRenderer.invoke('hide-num-win')
+  }
+
   return (
     <div style={{ userSelect: 'none', padding: '3%' }}>
-      <div className="parent" style={{ paddingBottom: 0 }}>
+      {/* <div className="parent" style={{ paddingBottom: 0 }}>
         <div className="div1 win-drag">
-          <button className="win-not-drag" onClick={() => window.electron.ipcRenderer.invoke('hide-num-win')}>
+          <button className="win-not-drag" onClick={hideNumWin}>
             x
           </button>
         </div>
@@ -225,7 +229,13 @@ const Num = () => {
         </button>
       </div>
 
-      <hr />
+      <hr /> */}
+
+      <div className="win-drag" style={{ height: 22, backgroundColor: 'orange', marginBottom: 4, display: 'flex' }}>
+        <button className="win-not-drag" style={{ height: '100%' }} onClick={hideNumWin}>
+          x
+        </button>
+      </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
         {contentList.map((item, index) => (
@@ -238,7 +248,9 @@ const Num = () => {
               textAlign: 'left',
               cursor: 'pointer'
             }}
-            onClick={() => window.electron.ipcRenderer.invoke('copy-and-paste', item)}
+            onClick={() => {
+              window.electron.ipcRenderer.invoke('copy-and-paste', item).then(hideNumWin)
+            }}
           >
             {item}
           </button>
