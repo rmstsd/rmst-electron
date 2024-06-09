@@ -18,7 +18,6 @@ const addUiohook = () => {
     // }
 
     if (evt.keycode === UiohookKey.Alt) {
-      9
       const cur = performance.now()
       if (cur - prevTime < 300) {
         handleNumWindow()
@@ -32,7 +31,7 @@ const addUiohook = () => {
 }
 
 export const addShortcut = () => {
-  addUiohook()
+  // addUiohook()
   globalShortcut.register('Alt+Space', () => {
     if (electronWindow.OpenDir.isVisible()) {
       electronWindow.OpenDir.minimize()
@@ -44,9 +43,9 @@ export const addShortcut = () => {
     }
   })
 
-  // globalShortcut.register('Alt+n', () => {
-  //   handleNumWindow()
-  // })
+  globalShortcut.register('Alt+n', () => {
+    handleNumWindow()
+  })
 }
 
 function handleNumWindow() {
