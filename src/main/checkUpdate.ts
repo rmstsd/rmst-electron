@@ -4,6 +4,11 @@ import path from 'node:path'
 import log from 'electron-log/main'
 import { is } from '@electron-toolkit/utils'
 
+log.info(app.getAppPath())
+log.info(app.getPath('home'))
+log.info(app.getPath('appData'))
+log.info(app.getPath('userData'))
+
 Object.defineProperty(app, 'isPackaged', {
   get() {
     return true
@@ -13,11 +18,11 @@ Object.defineProperty(app, 'isPackaged', {
 autoUpdater.logger = log
 autoUpdater.logger.transports.file.level = 'info'
 
-if (is.dev) {
-  autoUpdater.updateConfigPath = path.join(__dirname, '../../dev-app-update.yml')
-} else {
-  autoUpdater.updateConfigPath = path.join(__dirname, '../../dist/win-unpacked/resources/app-update.yml')
-}
+// if (is.dev) {
+//   autoUpdater.updateConfigPath = path.join(app.getAppPath(), 'dev-app-update.yml')
+// } else {
+//   autoUpdater.updateConfigPath = path.join(app.getAppPath(), 'resources/app-update.yml')
+// }
 
 export function checkForUpdates() {
   autoUpdater.checkForUpdates().catch(err => {
