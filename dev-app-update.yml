@@ -1,3 +1,3 @@
 provider: generic
-url: https://github.com/rmstsd/rmst-electron/releases/latest
+url: http://localhost:5555/dist
 updaterCacheDirName: rmst-tools-updater

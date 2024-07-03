@@ -1,4 +1,4 @@
-import { autoUpdater } from 'electron-updater'
+import { autoUpdater, NsisUpdater } from 'electron-updater'
 import { app } from 'electron'
 import path from 'node:path'
 import log from 'electron-log/main'
