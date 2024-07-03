@@ -1,20 +1,16 @@
-import { autoUpdater, NsisUpdater } from 'electron-updater'
-import { app, dialog } from 'electron'
-import path from 'node:path'
+import { autoUpdater } from 'electron-updater'
+import { dialog } from 'electron'
 import log from 'electron-log/main'
-import { is } from '@electron-toolkit/utils'
+import { electronWindow } from './main-process/electronWindow'
 
 log.transports.file.level = 'info'
 autoUpdater.logger = log
+autoUpdater.autoDownload = false
 
 export function checkForUpdates() {
   autoUpdater.checkForUpdates().catch(err => {
     log.info('checkForUpdates 失败', err)
   })
-}
-
-export function quitAndInstall() {
-  autoUpdater.quitAndInstall()
 }
 
 //* 监听updater的事件
@@ -30,16 +26,38 @@ autoUpdater.on('checking-for-update', () => {
 // 发现可更新数据时
 autoUpdater.on('update-available', () => {
   log.info('有更新')
+
+  dialog
+    .showMessageBox({
+      type: 'info',
+      title: '版本更新',
+      message: '有新版本可用, 是否更新',
+      detail: '更新日志: xxxxxx',
+      cancelId: 1, // 按esc默认点击索引按钮
+      defaultId: 0, // 默认高亮的按钮下标
+      buttons: ['确认', '取消'] // 按钮按索引从右往左排序
+    })
+    .then(({ response }) => {
+      log.info('update-available', response)
+
+      if (response === 0) {
+        autoUpdater.downloadUpdate()
+      }
+    })
 })
 
 // 没有可更新数据时
 autoUpdater.on('update-not-available', () => {
   log.info('没有更新')
+
+  dialog.showMessageBox({ type: 'info', title: '版本更新', message: '没有更新' })
 })
 
 // 下载监听
 autoUpdater.on('download-progress', progressObj => {
   log.info('下载监听', progressObj)
+
+  electronWindow.SettingWindow.setProgressBar(progressObj.percent / 100)
 })
 
 // 下载完成
@@ -49,9 +67,8 @@ autoUpdater.on('update-downloaded', () => {
   dialog
     .showMessageBox({
       type: 'info',
-      title: '这里是标题',
-      message: '提示内容',
-      detail: '额外信息',
+      title: '版本更新',
+      message: '新版本已经下载完成, 是否更新',
       cancelId: 1, // 按esc默认点击索引按钮
       defaultId: 0, // 默认高亮的按钮下标
       buttons: ['确认', '取消'] // 按钮按索引从右往左排序
@@ -60,7 +77,7 @@ autoUpdater.on('update-downloaded', () => {
       console.log(response)
 
       if (response === 0) {
-        quitAndInstall()
+        autoUpdater.quitAndInstall()
       }
     })
 })

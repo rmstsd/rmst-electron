@@ -3,7 +3,6 @@ import { Menu, Tray } from 'electron'
 import { electronWindow } from './electronWindow'
 
 import icon from '../../../resources/icon.png?asset'
-import { checkForUpdates } from '../checkUpdate'
 
 // 托盘图标
 export const createTray = () => {
@@ -14,7 +13,6 @@ export const createTray = () => {
   })
 
   const contextMenu = Menu.buildFromTemplate([
-    { label: '检查更新', type: 'normal', click: () => checkForUpdates() },
     {
       label: '设置',
       type: 'normal',
