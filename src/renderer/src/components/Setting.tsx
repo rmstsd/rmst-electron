@@ -38,6 +38,7 @@ export default function Setting() {
 
   return (
     <div>
+      1
       <div style={{ display: 'flex', justifyContent: 'center', fontSize: 20, gap: 10, marginTop: 5 }}>
         <div>
           name: <Tag size="large">{baseInfo.name}</Tag>
@@ -49,7 +50,6 @@ export default function Setting() {
           version: <Tag size="large">{baseInfo.version}</Tag>
         </div>
       </div>
-
       <Form style={{ paddingRight: '10%' }} initialValues={ini} form={form} autoComplete="off" onSubmit={onSubmit}>
         <Form.Item style={{ marginTop: 20 }} label=" " className="sticky-top-0">
           <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
