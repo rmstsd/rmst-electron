@@ -14,6 +14,7 @@ export const createTray = () => {
   })
 
   const contextMenu = Menu.buildFromTemplate([
+    { label: '检查更新', type: 'normal', click: () => checkForUpdates() },
     {
       label: '设置',
       type: 'normal',
@@ -21,8 +22,7 @@ export const createTray = () => {
         electronWindow.SettingWindow?.show()
       }
     },
-    { label: '退出', type: 'normal', click: () => process.exit(0) },
-    { label: '检查更新', type: 'normal', click: () => checkForUpdates() }
+    { label: '退出', type: 'normal', click: () => process.exit(0) }
   ])
 
   tray.setToolTip('rmst')

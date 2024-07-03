@@ -1,13 +1,18 @@
-import { Button, Form, Input, Message } from '@arco-design/web-react'
+import { Button, Form, Input, Message, Tag } from '@arco-design/web-react'
 import { IconDelete } from '@arco-design/web-react/icon'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function Setting() {
   const [form] = Form.useForm()
 
+  const [baseInfo, setBaseInfo] = useState({ appPath: '', version: '', name: '' })
+
   useEffect(() => {
     window.electron.ipcRenderer.invoke('get-setting').then(data => {
       form.setFieldsValue(data)
+    })
+    window.electron.ipcRenderer.invoke('get-base-info').then(data => {
+      setBaseInfo(data)
     })
   }, [])
 
@@ -33,6 +38,18 @@ export default function Setting() {
 
   return (
     <div>
+      <div style={{ display: 'flex', justifyContent: 'center', fontSize: 20, gap: 10, marginTop: 5 }}>
+        <div>
+          name: <Tag size="large">{baseInfo.name}</Tag>
+        </div>
+        <div>
+          appPath: <Tag size="large">{baseInfo.appPath}</Tag>
+        </div>
+        <div>
+          version: <Tag size="large">{baseInfo.version}</Tag>
+        </div>
+      </div>
+
       <Form style={{ paddingRight: '10%' }} initialValues={ini} form={form} autoComplete="off" onSubmit={onSubmit}>
         <Form.Item style={{ marginTop: 20 }} label=" " className="sticky-top-0">
           <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>

@@ -1,4 +1,4 @@
-import { BrowserWindow, ipcMain, shell, clipboard } from 'electron'
+import { BrowserWindow, ipcMain, shell, clipboard, app } from 'electron'
 import { Key, keyboard } from '@nut-tree/nut-js'
 
 import { electronWindow } from '../../main-process/electronWindow'
@@ -35,6 +35,14 @@ function addSettingIpcMain() {
   })
   ipcMain.handle('check-update', () => {
     checkForUpdates()
+  })
+
+  ipcMain.handle('get-base-info', () => {
+    return {
+      appPath: app.getAppPath(),
+      version: app.getVersion(),
+      name: app.getName()
+    }
   })
 }
 

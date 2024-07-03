@@ -1,35 +1,15 @@
 import { autoUpdater, NsisUpdater } from 'electron-updater'
-import { app } from 'electron'
+import { app, dialog } from 'electron'
 import path from 'node:path'
 import log from 'electron-log/main'
 import { is } from '@electron-toolkit/utils'
 
-log.info(app.getAppPath())
-log.info(app.getPath('home'))
-log.info(app.getPath('appData'))
-log.info(app.getPath('userData'))
-
-// Object.defineProperty(app, 'isPackaged', {
-//   get() {
-//     return true
-//   }
-// })
-
+log.transports.file.level = 'info'
 autoUpdater.logger = log
-autoUpdater.logger.transports.file.level = 'info'
-
-// if (is.dev) {
-//   autoUpdater.updateConfigPath = path.join(app.getAppPath(), 'dev-app-update.yml')
-// } else {
-//   autoUpdater.updateConfigPath = path.join(app.getAppPath(), 'resources/app-update.yml')
-// }
 
 export function checkForUpdates() {
-  autoUpdater.checkForUpdatesAndNotify({ body: '人美声甜 body', title: '人美声甜 title' })
-
-  return
   autoUpdater.checkForUpdates().catch(err => {
-    log.info('网络连接问题', err)
+    log.info('checkForUpdates 失败', err)
   })
 }
 
@@ -59,12 +39,30 @@ autoUpdater.on('update-not-available', () => {
 
 // 下载监听
 autoUpdater.on('download-progress', progressObj => {
-  log.info(progressObj, '下载监听')
+  log.info('下载监听', progressObj)
 })
 
 // 下载完成
 autoUpdater.on('update-downloaded', () => {
   log.info('下载完成')
+
+  dialog
+    .showMessageBox({
+      type: 'info',
+      title: '这里是标题',
+      message: '提示内容',
+      detail: '额外信息',
+      cancelId: 1, // 按esc默认点击索引按钮
+      defaultId: 0, // 默认高亮的按钮下标
+      buttons: ['确认', '取消'] // 按钮按索引从右往左排序
+    })
+    .then(({ response }) => {
+      console.log(response)
+
+      if (response === 0) {
+        quitAndInstall()
+      }
+    })
 })
 
 // 当更新发生错误的时候触发。

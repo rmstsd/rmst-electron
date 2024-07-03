@@ -1,8 +1,10 @@
-import { app, shell, BrowserWindow } from 'electron'
+import { app, shell, BrowserWindow, dialog } from 'electron'
 import { join } from 'path'
 import { optimizer, is } from '@electron-toolkit/utils'
 
 import bootstrap, { launchAtStartup } from './bootstrap'
+
+console.log(app.getVersion())
 
 import icon from '../../resources/icon.png?asset'
 
