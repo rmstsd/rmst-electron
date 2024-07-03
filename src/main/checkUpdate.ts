@@ -2,11 +2,22 @@ import { autoUpdater, NsisUpdater } from 'electron-updater'
 import { app } from 'electron'
 import path from 'node:path'
 import log from 'electron-log/main'
+import { is } from '@electron-toolkit/utils'
+
+Object.defineProperty(app, 'isPackaged', {
+  get() {
+    return true
+  }
+})
 
 autoUpdater.logger = log
 autoUpdater.logger.transports.file.level = 'info'
 
-autoUpdater.updateConfigPath = path.join(__dirname, '../../dist/win-unpacked/resources/app-update.yml')
+if (is.dev) {
+  autoUpdater.updateConfigPath = path.join(__dirname, '../../dev-app-update.yml')
+} else {
+  autoUpdater.updateConfigPath = path.join(__dirname, '../../dist/win-unpacked/resources/app-update.yml')
+}
 
 export function checkForUpdates() {
   autoUpdater.checkForUpdates().catch(err => {
