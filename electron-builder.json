@@ -37,5 +37,8 @@
   "linux": { "target": ["AppImage", "snap", "deb"], "maintainer": "electronjs.org", "category": "Utility" },
   "appImage": { "artifactName": "${name}-${version}.${ext}" },
   "npmRebuild": false,
-  "publish": { "provider": "generic", "url": "http://localhost:5555/dist" }
+  "publish": {
+    "provider": "generic",
+    "url": "http://localhost:5555/f"
+  }
 }

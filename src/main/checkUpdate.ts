@@ -3,12 +3,6 @@ import { app } from 'electron'
 import path from 'node:path'
 import log from 'electron-log/main'
 
-Object.defineProperty(app, 'isPackaged', {
-  get() {
-    return true
-  }
-})
-
 autoUpdater.logger = log
 autoUpdater.logger.transports.file.level = 'info'
 
@@ -16,7 +10,7 @@ autoUpdater.updateConfigPath = path.join(__dirname, '../../dist/win-unpacked/res
 
 export function checkForUpdates() {
   autoUpdater.checkForUpdates().catch(err => {
-    console.log('网络连接问题', err)
+    log.info('网络连接问题', err)
   })
 }
 
@@ -31,27 +25,27 @@ export function quitAndInstall() {
 
 // 当开始检查更新的时候触发
 autoUpdater.on('checking-for-update', () => {
-  console.log('开始检查更新')
+  log.info('开始检查更新')
 })
 
 // 发现可更新数据时
 autoUpdater.on('update-available', () => {
-  console.log('有更新')
+  log.info('有更新')
 })
 
 // 没有可更新数据时
 autoUpdater.on('update-not-available', () => {
-  console.log('没有更新')
+  log.info('没有更新')
 })
 
 // 下载监听
 autoUpdater.on('download-progress', progressObj => {
-  console.log(progressObj, '下载监听')
+  log.info(progressObj, '下载监听')
 })
 
 // 下载完成
 autoUpdater.on('update-downloaded', () => {
-  console.log('下载完成')
+  log.info('下载完成')
 })
 
 // 当更新发生错误的时候触发。
