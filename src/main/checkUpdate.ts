@@ -9,11 +9,11 @@ log.info(app.getPath('home'))
 log.info(app.getPath('appData'))
 log.info(app.getPath('userData'))
 
-Object.defineProperty(app, 'isPackaged', {
-  get() {
-    return true
-  }
-})
+// Object.defineProperty(app, 'isPackaged', {
+//   get() {
+//     return true
+//   }
+// })
 
 autoUpdater.logger = log
 autoUpdater.logger.transports.file.level = 'info'
@@ -25,6 +25,9 @@ autoUpdater.logger.transports.file.level = 'info'
 // }
 
 export function checkForUpdates() {
+  autoUpdater.checkForUpdatesAndNotify({ body: '人美声甜 body', title: '人美声甜 title' })
+
+  return
   autoUpdater.checkForUpdates().catch(err => {
     log.info('网络连接问题', err)
   })
