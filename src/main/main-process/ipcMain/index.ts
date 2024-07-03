@@ -5,6 +5,7 @@ import { electronWindow } from '../../main-process/electronWindow'
 
 import { clearAllStore, getStoreSetting, setStoreSetting } from './store'
 import { getProjectNamesTree, nodeCmdDir, openSpawnDir, setDirWinSize } from './openDir'
+import { checkForUpdates } from '../../checkUpdate'
 
 keyboard.config.autoDelayMs = 0
 
@@ -31,6 +32,9 @@ function addSettingIpcMain() {
   ipcMain.handle('get-setting', () => getStoreSetting())
   ipcMain.handle('clear-ele-store', () => {
     clearAllStore()
+  })
+  ipcMain.handle('check-update', () => {
+    checkForUpdates()
   })
 }
 

@@ -43,6 +43,14 @@ export default function Setting() {
             <Button type="primary" status="danger" onClick={clearEleStore}>
               清空本地缓存
             </Button>
+            <Button
+              type="primary"
+              onClick={() => {
+                window.electron.ipcRenderer.invoke('check-update').then(() => {})
+              }}
+            >
+              检查更新
+            </Button>
           </div>
         </Form.Item>
 

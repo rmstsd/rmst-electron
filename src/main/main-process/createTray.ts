@@ -3,6 +3,7 @@ import { Menu, Tray } from 'electron'
 import { electronWindow } from './electronWindow'
 
 import icon from '../../../resources/icon.png?asset'
+import { checkForUpdates } from '../checkUpdate'
 
 // 托盘图标
 export const createTray = () => {
@@ -20,7 +21,8 @@ export const createTray = () => {
         electronWindow.SettingWindow?.show()
       }
     },
-    { label: '退出', type: 'normal', click: () => process.exit(0) }
+    { label: '退出', type: 'normal', click: () => process.exit(0) },
+    { label: '检查更新', type: 'normal', click: () => checkForUpdates() }
   ])
 
   tray.setToolTip('rmst')
