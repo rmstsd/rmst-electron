@@ -55,17 +55,22 @@ jobs:
           draft: false
           prerelease: false
 
-      # - name: Upload Windows SetUp Package
-      #   uses: actions/upload-release-asset@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-      #     asset_path: ./dist
-      #     asset_name: rmst-tools-windows-${{ steps.tag.outputs.tag }}.exe
-      #     asset_content_type: application/octet-stream
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+      - name: Upload Windows SetUp exe
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: my-artifact
-          path: ./dist
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+          asset_path: ./dist/rmst-tools-${{ steps.tag.outputs.tag }}-setup.exe
+          asset_name: windows-${{ steps.tag.outputs.tag }}.exe
+          asset_content_type: application/octet-stream
+
+      - name: Upload latest.yml
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+          asset_path: ./dist/latest.yml
+          asset_name: latest.yml
+          asset_content_type: application/octet-stream
