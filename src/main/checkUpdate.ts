@@ -8,8 +8,10 @@ autoUpdater.logger = log
 autoUpdater.autoDownload = false
 
 export function checkForUpdates() {
-  autoUpdater.checkForUpdates().catch(err => {
+  return autoUpdater.checkForUpdates().catch(err => {
     log.info('checkForUpdates 失败', err)
+
+    return Promise.reject()
   })
 }
 

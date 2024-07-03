@@ -33,9 +33,7 @@ function addSettingIpcMain() {
   ipcMain.handle('clear-ele-store', () => {
     clearAllStore()
   })
-  ipcMain.handle('check-update', () => {
-    checkForUpdates()
-  })
+  ipcMain.handle('check-update', () => checkForUpdates())
 
   ipcMain.handle('get-base-info', () => {
     return {

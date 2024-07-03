@@ -36,9 +36,10 @@ export default function Setting() {
     // vscodePath: 'D:\\VS Code\\Code.exe'
   }
 
+  const [cuLoading, setCuLoading] = useState(false)
+
   return (
     <div>
-      1
       <div style={{ display: 'flex', justifyContent: 'center', fontSize: 20, gap: 10, marginTop: 5 }}>
         <div>
           name: <Tag size="large">{baseInfo.name}</Tag>
@@ -61,9 +62,13 @@ export default function Setting() {
               清空本地缓存
             </Button>
             <Button
+              loading={cuLoading}
               type="primary"
               onClick={() => {
-                window.electron.ipcRenderer.invoke('check-update').then(() => {})
+                setCuLoading(true)
+                window.electron.ipcRenderer.invoke('check-update').finally(() => {
+                  setCuLoading(false)
+                })
               }}
             >
               检查更新
