@@ -10,13 +10,8 @@ autoUpdater.logger = log
 autoUpdater.autoDownload = false
 
 if (is.dev) {
-  Reflect.defineProperty(app, 'isPackaged', {
-    get() {
-      return true
-    }
-  })
-  log.info(path.join(process.cwd(), 'dev-app-update.yml'))
-  autoUpdater.updateConfigPath = path.join(process.cwd(), 'dev-app-update.yml')
+  console.log('dev')
+  autoUpdater.forceDevUpdateConfig = true
 }
 
 export function checkForUpdates() {
@@ -38,15 +33,29 @@ autoUpdater.on('checking-for-update', () => {
 })
 
 // 发现可更新数据时
-autoUpdater.on('update-available', () => {
-  log.info('有更新')
+autoUpdater.on('update-available', info => {
+  log.info('有更新', info)
+
+  const format = (dateTime: string) => {
+    return new Intl.DateTimeFormat('zh', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false
+    })
+      .format(new Date(dateTime))
+      .replace(/[/]/g, '-')
+  }
 
   dialog
-    .showMessageBox({
+    .showMessageBox(electronWindow.SettingWindow, {
       type: 'info',
       title: '版本更新',
-      message: '有新版本可用, 是否更新',
-      detail: '更新日志: xxxxxx',
+      message: `有新版本 ${info.version} 可用, 是否更新`,
+      detail: `发布日期: ${format(info.releaseDate)}`,
       cancelId: 1, // 按esc默认点击索引按钮
       defaultId: 0, // 默认高亮的按钮下标
       buttons: ['确认', '取消'] // 按钮按索引从右往左排序
@@ -64,7 +73,7 @@ autoUpdater.on('update-available', () => {
 autoUpdater.on('update-not-available', () => {
   log.info('没有更新')
 
-  dialog.showMessageBox({ type: 'info', title: '版本更新', message: '没有更新' })
+  dialog.showMessageBox(electronWindow.SettingWindow, { type: 'info', title: '版本更新', message: '没有更新' })
 })
 
 // 下载监听
@@ -79,7 +88,7 @@ autoUpdater.on('update-downloaded', () => {
   log.info('下载完成')
 
   dialog
-    .showMessageBox({
+    .showMessageBox(electronWindow.SettingWindow, {
       type: 'info',
       title: '版本更新',
       message: '新版本已经下载完成, 是否更新',
