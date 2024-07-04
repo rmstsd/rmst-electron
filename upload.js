@@ -3,6 +3,7 @@ const path = require('path')
 const fse = require('fs')
 
 const FormData = require('form-data')
+console.log(FormData)
 
 upload()
 function upload() {
@@ -17,8 +18,6 @@ function upload() {
   filesName.forEach(item => {
     formData.append(item, fse.createReadStream(path.join(dir, item)))
   })
-
-  console.log('formData', formData)
 
   axios({
     url: 'http://127.0.0.1:3111/uploadFile',

@@ -1,8 +1,9 @@
 import axios from 'axios'
+
 import * as path from 'node:path'
 import * as fse from 'fs-extra'
-
 import * as fs from 'node:fs'
+import * as FormData from 'form-data'
 
 upload()
 
@@ -13,7 +14,7 @@ function upload() {
   const formData = new FormData()
 
   const pkg = fse.readJSONSync('./package.json')
-  // formData.append('version', pkg.version)
+  formData.append('version', pkg.version)
 
   filesName.forEach(item => {
     formData.append(item, fs.createReadStream(path.join(dir, item)))
