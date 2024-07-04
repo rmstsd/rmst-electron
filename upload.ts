@@ -23,7 +23,7 @@ function upload() {
   console.log('formData', formData)
 
   axios({
-    url: 'http://127.0.0.1:3111/uploadFile',
+    url: 'http://127.0.0.1:1666/uploadFile',
     method: 'POST',
     data: formData,
     headers: {
