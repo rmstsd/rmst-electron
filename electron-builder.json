@@ -38,8 +38,7 @@
   "appImage": { "artifactName": "${name}-${version}.${ext}" },
   "npmRebuild": false,
   "publish": {
-    "provider": "github",
-    "owner": "rmstsd",
-    "repo": "rmst-electron"
+    "provider": "generic",
+    "url": "http://127.0.0.1:1666"
   }
 }

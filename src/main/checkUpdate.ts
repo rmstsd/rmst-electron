@@ -1,11 +1,23 @@
 import { autoUpdater } from 'electron-updater'
-import { dialog } from 'electron'
+import { app, dialog } from 'electron'
 import log from 'electron-log/main'
 import { electronWindow } from './main-process/electronWindow'
+import { is } from '@electron-toolkit/utils'
+import path from 'node:path'
 
 log.transports.file.level = 'info'
 autoUpdater.logger = log
 autoUpdater.autoDownload = false
+
+if (is.dev) {
+  Reflect.defineProperty(app, 'isPackaged', {
+    get() {
+      return true
+    }
+  })
+  log.info(path.join(process.cwd(), 'dev-app-update.yml'))
+  autoUpdater.updateConfigPath = path.join(process.cwd(), 'dev-app-update.yml')
+}
 
 export function checkForUpdates() {
   return autoUpdater.checkForUpdates().catch(err => {
