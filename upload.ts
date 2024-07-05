@@ -16,8 +16,10 @@ function upload() {
   const pkg = fse.readJSONSync('./package.json')
   formData.append('version', pkg.version)
 
+  formData.append('asd', fs.createReadStream(path.join(__dirname, './upload.ts')))
+
   filesName.forEach(item => {
-    formData.append(item, fs.createReadStream(path.join(dir, item)))
+    // formData.append(item, fs.createReadStream(path.join(dir, item)))
   })
 
   const isDev = false
