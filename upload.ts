@@ -20,16 +20,13 @@ function upload() {
     formData.append(item, fs.createReadStream(path.join(dir, item)))
   })
 
-  console.log('formData', formData)
+  const isDev = false
 
-  axios({
-    url: 'http://127.0.0.1:1666/uploadFile',
-    method: 'POST',
-    data: formData,
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    }
-  }).then(res => {
-    // console.log(res.data)
+  const Prod = isDev ? 'http://localhost:1666' : 'https://rmst-server.vercel.app'
+
+  const ins = axios.create({ baseURL: Prod })
+
+  ins.post('/uploadFile', formData).then(res => {
+    console.log('-- then', res.data)
   })
 }
