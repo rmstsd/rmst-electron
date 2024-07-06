@@ -5,6 +5,7 @@ import path from 'path-browserify'
 import clsx from 'clsx'
 
 import { defaultList } from '../utils'
+import { commonEvent, OpenDirEvent } from '@common/ipcEvent'
 
 interface DirNamesTree {
   name: string
@@ -12,7 +13,6 @@ interface DirNamesTree {
 }
 
 const DirSearch = () => {
-  console.log('d s')
   const [isCanOpenDir, setIsCanOpenDir] = useState(false)
   const [wd, setWd] = useState('')
   const [dirNamesTree, setDirNamesTree] = useState<DirNamesTree[]>([])
@@ -33,7 +33,7 @@ const DirSearch = () => {
     }
 
     const ob = new ResizeObserver(() => {
-      window.electron.ipcRenderer.send('set-dir-win-size', document.body.offsetHeight)
+      window.electron.ipcRenderer.send(OpenDirEvent.Set_Dir_Win_Size, document.body.offsetHeight)
     })
     ob.observe(document.body)
 
@@ -46,13 +46,13 @@ const DirSearch = () => {
   const getInitialData = () => {
     inputRef.current.dom.focus()
 
-    window.electron.ipcRenderer.invoke('project-names-tree').then(data => {
+    window.electron.ipcRenderer.invoke(OpenDirEvent.Project_Names_Tree).then(data => {
       Array.isArray(data) && setDirNamesTree(data)
     })
 
     Promise.all([
-      window.electron.ipcRenderer.invoke('get-editorPath'),
-      window.electron.ipcRenderer.invoke('get-dirPaths')
+      window.electron.ipcRenderer.invoke(OpenDirEvent.Get_EditorPath),
+      window.electron.ipcRenderer.invoke(OpenDirEvent.Get_DirPaths)
     ]).then(([editorPath, dirPaths]) => {
       const isCan = Boolean(editorPath) && Array.isArray(dirPaths) && dirPaths.length !== 0
       setIsCanOpenDir(isCan)
@@ -61,7 +61,7 @@ const DirSearch = () => {
 
   const onConfirm = (projectPath: string) => {
     if (searchUrl) {
-      window.electron.ipcRenderer.send('open-external', searchUrl)
+      window.electron.ipcRenderer.send(commonEvent.Open_External, searchUrl)
       hideFocusedWin()
 
       setWd('')
@@ -79,7 +79,7 @@ const DirSearch = () => {
       if (!projectPath) {
         return
       }
-      window.electron.ipcRenderer.send('spawn-open-dir', projectPath)
+      window.electron.ipcRenderer.send(OpenDirEvent.Spawn_Open_Dir, projectPath)
       hideFocusedWin()
     }
 
@@ -91,12 +91,12 @@ const DirSearch = () => {
     if (!projectPath) {
       return
     }
-    window.electron.ipcRenderer.send('node-cmd-dir', projectPath)
+    window.electron.ipcRenderer.send(OpenDirEvent.Node_Cmd_Dir, projectPath)
     hideFocusedWin()
   }
 
   function hideFocusedWin() {
-    window.electron.ipcRenderer.send('hide-focused-win')
+    window.electron.ipcRenderer.send(commonEvent.Hide_Focused_Win)
   }
 
   const onKeyDown = (evt: React.KeyboardEvent<HTMLInputElement>) => {

@@ -1,4 +1,5 @@
 import { useLayoutEffect, useState } from 'react'
+import { QuickInputEvent, SettingEvent } from '@common/ipcEvent'
 
 // 来自 @nut-tree/nut-js
 enum Key {
@@ -148,26 +149,26 @@ const Num = () => {
   }, [])
 
   useLayoutEffect(() => {
-    window.electron.ipcRenderer.send('set-num-win-size', {
+    window.electron.ipcRenderer.send(QuickInputEvent.Set_Num_Win_Size, {
       width: document.body.offsetWidth,
       height: document.body.offsetHeight
     })
   })
 
   const pressChar = (key: Key) => {
-    window.electron.ipcRenderer.send('press-char', key)
+    window.electron.ipcRenderer.send(QuickInputEvent.Press_Char, key)
   }
 
   const [contentList, setContentList] = useState<string[]>([])
 
   const getContent = () => {
-    window.electron.ipcRenderer.invoke('get-setting').then(data => {
+    window.electron.ipcRenderer.invoke(SettingEvent.Get_Setting).then(data => {
       setContentList(data?.notes || [])
     })
   }
 
   function hideNumWin() {
-    window.electron.ipcRenderer.invoke('hide-num-win')
+    window.electron.ipcRenderer.invoke(QuickInputEvent.Hide_Num_Win)
   }
 
   return (
@@ -249,7 +250,7 @@ const Num = () => {
               cursor: 'pointer'
             }}
             onClick={() => {
-              window.electron.ipcRenderer.invoke('copy-and-paste', item).then(hideNumWin)
+              window.electron.ipcRenderer.invoke(QuickInputEvent.Copy_And_Paste, item).then(hideNumWin)
             }}
           >
             {item}

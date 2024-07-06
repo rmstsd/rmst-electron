@@ -4,8 +4,6 @@ import { optimizer, is } from '@electron-toolkit/utils'
 
 import bootstrap, { launchAtStartup } from './bootstrap'
 
-console.log(app.getVersion())
-
 import icon from '../../resources/icon.png?asset'
 
 // This method will be called when Electron has finished initialization and is ready to create browser windows.

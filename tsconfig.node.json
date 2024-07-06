@@ -4,6 +4,10 @@
   "compilerOptions": {
     "composite": true,
     "strict": false,
-    "types": ["electron-vite/node"]
+    "types": ["electron-vite/node"],
+    "baseUrl": ".",
+    "paths": {
+      "@common/*": ["src/common/*"]
+    }
   }
 }

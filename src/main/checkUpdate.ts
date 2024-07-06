@@ -10,7 +10,6 @@ autoUpdater.logger = log
 autoUpdater.autoDownload = false
 
 if (is.dev) {
-  console.log('dev')
   autoUpdater.forceDevUpdateConfig = true
 }
 

@@ -1,6 +1,5 @@
 import fse from 'fs-extra'
 import { spawn } from 'cross-spawn'
-import cmd from 'node-cmd'
 
 import { getStoreSetting } from './store'
 import { electronWindow } from '../electronWindow'
@@ -19,7 +18,10 @@ export const nodeCmdDir = (_, dirPath) => {
     return
   }
 
-  cmd.runSync(`${cmdPath} -d ${dirPath}`)
+  spawn(cmdPath, [`-d ${dirPath}`], { shell: true })
+
+  // import cmd from 'node-cmd'
+  // cmd.runSync(`${cmdPath} -d ${dirPath}`)
 }
 
 export const setDirWinSize = (_, value) => {

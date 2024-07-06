@@ -7,14 +7,16 @@ import { clearAllStore, getStoreSetting, setStoreSetting } from './store'
 import { getProjectNamesTree, nodeCmdDir, openSpawnDir, setDirWinSize } from './openDir'
 import { checkForUpdates } from '../../checkUpdate'
 
+import { BrowserEvent, commonEvent, OpenDirEvent, QuickInputEvent, SettingEvent } from '@common/ipcEvent'
+
 keyboard.config.autoDelayMs = 0
 
 export const addIpcMain = () => {
-  ipcMain.handle('copy-text', (_, content) => {
+  ipcMain.handle(commonEvent.Copy_Text, (_, content) => {
     clipboard.writeText(content)
   })
-  ipcMain.on('hide-focused-win', () => BrowserWindow.getFocusedWindow()?.hide())
-  ipcMain.on('open-external', (_, url) => shell.openExternal(url))
+  ipcMain.on(commonEvent.Hide_Focused_Win, () => BrowserWindow.getFocusedWindow()?.hide())
+  ipcMain.on(commonEvent.Open_External, (_, url) => shell.openExternal(url))
 
   addQuickOpenDirIpcMain()
 
@@ -26,16 +28,16 @@ export const addIpcMain = () => {
 }
 
 function addSettingIpcMain() {
-  ipcMain.handle('save-setting', async (_, value) => {
+  ipcMain.handle(SettingEvent.Save_Setting, async (_, value) => {
     setStoreSetting(value)
   })
-  ipcMain.handle('get-setting', () => getStoreSetting())
-  ipcMain.handle('clear-ele-store', () => {
+  ipcMain.handle(SettingEvent.Get_Setting, () => getStoreSetting())
+  ipcMain.handle(SettingEvent.Clear_Ele_Store, () => {
     clearAllStore()
   })
-  ipcMain.handle('check-update', () => checkForUpdates())
+  ipcMain.handle(SettingEvent.Check_Update, () => checkForUpdates())
 
-  ipcMain.handle('get-base-info', () => {
+  ipcMain.handle(SettingEvent.Get_Base_Info, () => {
     return {
       appPath: app.getAppPath(),
       version: app.getVersion(),
@@ -45,23 +47,23 @@ function addSettingIpcMain() {
 }
 
 function addBrowserIpcMain() {
-  ipcMain.handle('minimize', () => electronWindow.RmstBrowserWindow.minimize())
-  ipcMain.handle('maximize', () => electronWindow.RmstBrowserWindow.maximize())
-  ipcMain.handle('unmaximize', () => electronWindow.RmstBrowserWindow.unmaximize())
-  ipcMain.handle('close', () => electronWindow.RmstBrowserWindow.close())
+  ipcMain.handle(BrowserEvent.Browser_Minimize, () => electronWindow.RmstBrowserWindow.minimize())
+  ipcMain.handle(BrowserEvent.Browser_Maximize, () => electronWindow.RmstBrowserWindow.maximize())
+  ipcMain.handle(BrowserEvent.Browser_Unmaximize, () => electronWindow.RmstBrowserWindow.unmaximize())
+  ipcMain.handle(BrowserEvent.Browser_Close, () => electronWindow.RmstBrowserWindow.close())
 }
 
 function addQuickInputIpcMain() {
-  ipcMain.handle('hide-num-win', () => {
+  ipcMain.handle(QuickInputEvent.Hide_Num_Win, () => {
     electronWindow.QuickInput.hide()
   })
-  ipcMain.on('set-num-win-size', (_, { width, height }) => {
+  ipcMain.on(QuickInputEvent.Set_Num_Win_Size, (_, { width, height }) => {
     electronWindow.QuickInput.setBounds({ width, height })
   })
-  ipcMain.on('press-char', (_, value: Key) => {
+  ipcMain.on(QuickInputEvent.Press_Char, (_, value: Key) => {
     keyboard.type(value)
   })
-  ipcMain.handle('copy-and-paste', async (_, value) => {
+  ipcMain.handle(QuickInputEvent.Copy_And_Paste, async (_, value) => {
     clipboard.writeText(value)
 
     await keyboard.pressKey(Key.LeftControl, Key.V)
@@ -70,13 +72,13 @@ function addQuickInputIpcMain() {
 }
 
 function addQuickOpenDirIpcMain() {
-  ipcMain.on('spawn-open-dir', openSpawnDir)
-  ipcMain.on('node-cmd-dir', nodeCmdDir)
-  ipcMain.on('set-dir-win-size', setDirWinSize)
+  ipcMain.on(OpenDirEvent.Spawn_Open_Dir, openSpawnDir)
+  ipcMain.on(OpenDirEvent.Node_Cmd_Dir, nodeCmdDir)
+  ipcMain.on(OpenDirEvent.Set_Dir_Win_Size, setDirWinSize)
 
-  ipcMain.handle('project-names-tree', getProjectNamesTree)
+  ipcMain.handle(OpenDirEvent.Project_Names_Tree, getProjectNamesTree)
 
-  ipcMain.handle('get-dirPaths', () => getStoreSetting().projectPaths)
-  ipcMain.handle('get-editorPath', () => getStoreSetting().vscodePath)
-  ipcMain.handle('get-cmdPath', () => getStoreSetting().cmdPath)
+  ipcMain.handle(OpenDirEvent.Get_DirPaths, () => getStoreSetting().projectPaths)
+  ipcMain.handle(OpenDirEvent.Get_EditorPath, () => getStoreSetting().vscodePath)
+  ipcMain.handle(OpenDirEvent.Get_CmdPath, () => getStoreSetting().cmdPath)
 }
