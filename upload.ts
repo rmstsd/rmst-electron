@@ -1,9 +1,12 @@
 import axios from 'axios'
-
 import * as path from 'node:path'
 import * as fse from 'fs-extra'
 import * as fs from 'node:fs'
 import * as FormData from 'form-data'
+import { HttpsProxyAgent } from 'https-proxy-agent'
+
+const proxy = 'http://127.0.0.1:7890'
+const ag = new HttpsProxyAgent(proxy)
 
 upload()
 
@@ -24,11 +27,11 @@ function upload() {
 
   const isDev = false
 
-  const Prod = isDev ? 'http://localhost:1666' : 'https://rmst-server.vercel.app'
+  const baseURL = isDev ? 'http://localhost:1666' : 'https://rmst-server.vercel.app'
 
-  const ins = axios.create({ baseURL: Prod })
+  const ins = axios.create({ baseURL })
 
-  ins.post('/uploadFile', formData).then(res => {
+  ins.post('/uploadFile', formData, { httpsAgent: ag }).then(res => {
     console.log('-- then', res.data)
   })
 }

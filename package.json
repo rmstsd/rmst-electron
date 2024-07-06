@@ -15,7 +15,7 @@
     "build:mac": "electron-vite build && electron-builder --mac --config electron-builder-config",
     "build:linux": "electron-vite build && electron-builder --linux --config electron-builder-config",
     "release-it": "release-it patch",
-    "upload": "ts-node-transpile-only upload.ts",
+    "upload": "node upload.js",
     "rm-dist": "ts-node-transpile-only deleteDist"
   },
   "dependencies": {
@@ -29,6 +29,7 @@
     "electron-store": "^8.1.0",
     "electron-updater": "^6.1.1",
     "fs-extra": "^11.2.0",
+    "https-proxy-agent": "^7.0.5",
     "node-cmd": "^5.0.0",
     "path-browserify": "^1.0.1",
     "react-router-dom": "^6.21.1",
