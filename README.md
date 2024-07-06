@@ -10,3 +10,5 @@
 - alt + n: 屏幕数字小键盘, 对于非全尺寸键盘 输入数字更方便
 
 > 从 https://github.com/rmstsd/rmst-electron-old 仓库迁移
+
+> win10-Terminal: %LOCALAPPDATA%\Microsoft\WindowsApps
