@@ -14,7 +14,7 @@ permissions: write-all
 
 jobs:
   build:
-    name: Build Release & Upload Assets
+    name: Build Release & Upload Assets 2
     runs-on: windows-latest
     strategy:
       matrix:
