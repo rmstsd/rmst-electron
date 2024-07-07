@@ -96,8 +96,6 @@ autoUpdater.on('update-downloaded', () => {
       buttons: ['确认', '取消'] // 按钮按索引从右往左排序
     })
     .then(({ response }) => {
-      console.log(response)
-
       if (response === 0) {
         autoUpdater.quitAndInstall()
       } else {
