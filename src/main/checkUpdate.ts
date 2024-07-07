@@ -100,6 +100,8 @@ autoUpdater.on('update-downloaded', () => {
 
       if (response === 0) {
         autoUpdater.quitAndInstall()
+      } else {
+        electronWindow.SettingWindow.setProgressBar(-1)
       }
     })
 })
