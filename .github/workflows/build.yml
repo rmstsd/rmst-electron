@@ -43,7 +43,7 @@ jobs:
 
       - run: yarn install
       - run: yarn run build:win
-        env: 
+        env:
           GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
 
       - name: Create Release
@@ -84,6 +84,3 @@ jobs:
             dist/*.blockmap
         env:
           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-
-      - name: 上传到 vercel
-        run: yarn run upload
