@@ -30,8 +30,12 @@ export enum OpenDirEvent {
   Get_CmdPath = 'get-cmdPath'
 }
 
-export enum commonEvent {
+export enum CommonEvent {
   Copy_Text = 'copy-text',
   Hide_Focused_Win = 'hide-focused-win',
   Open_External = 'open-external'
+}
+
+export enum KillPortEvent {
+  Search_Process = 'search-process'
 }

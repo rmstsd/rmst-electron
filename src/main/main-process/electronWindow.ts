@@ -3,10 +3,11 @@ import { BrowserWindow, shell } from 'electron'
 import path from 'node:path'
 
 type IElectronWindow = {
-  SettingWindow: BrowserWindow
+  Setting: BrowserWindow
   OpenDir: BrowserWindow
   QuickInput: BrowserWindow
   RmstBrowserWindow: BrowserWindow
+  KillPort: BrowserWindow
 }
 export const electronWindow = {} as IElectronWindow
 
@@ -91,6 +92,22 @@ function createQuickInputWindow() {
   return win
 }
 
+function createKillPortWindow() {
+  const win = new BrowserWindow({
+    icon,
+    skipTaskbar: false,
+    show: false,
+    webPreferences: {
+      preload: preloadPath,
+      nodeIntegration: true
+    }
+  })
+
+  loadWindow(win, { ui: 'KillPort' })
+
+  return win
+}
+
 function createRmstBrowserWindow() {
   const win = new BrowserWindow({
     frame: false,
@@ -133,9 +150,10 @@ function createRmstBrowserWindow() {
 }
 
 export default function createWindow() {
-  electronWindow.SettingWindow = createSettingWindow()
+  electronWindow.Setting = createSettingWindow()
   electronWindow.OpenDir = createOpenDirWindow()
   electronWindow.QuickInput = createQuickInputWindow()
+  electronWindow.KillPort = createKillPortWindow()
 
   if (is.dev) {
     // electronWindow.RmstBrowserWindow = createRmstBrowserWindow()

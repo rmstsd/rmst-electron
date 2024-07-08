@@ -50,7 +50,7 @@ autoUpdater.on('update-available', info => {
   }
 
   dialog
-    .showMessageBox(electronWindow.SettingWindow, {
+    .showMessageBox(electronWindow.Setting, {
       type: 'info',
       title: '版本更新',
       message: `有新版本 ${info.version} 可用, 是否更新`,
@@ -72,14 +72,14 @@ autoUpdater.on('update-available', info => {
 autoUpdater.on('update-not-available', () => {
   log.info('没有更新')
 
-  dialog.showMessageBox(electronWindow.SettingWindow, { type: 'info', title: '版本更新', message: '没有更新' })
+  dialog.showMessageBox(electronWindow.Setting, { type: 'info', title: '版本更新', message: '没有更新' })
 })
 
 // 下载监听
 autoUpdater.on('download-progress', progressObj => {
   log.info('下载监听', progressObj)
 
-  electronWindow.SettingWindow.setProgressBar(progressObj.percent / 100)
+  electronWindow.Setting.setProgressBar(progressObj.percent / 100)
 })
 
 // 下载完成
@@ -87,7 +87,7 @@ autoUpdater.on('update-downloaded', () => {
   log.info('下载完成')
 
   dialog
-    .showMessageBox(electronWindow.SettingWindow, {
+    .showMessageBox(electronWindow.Setting, {
       type: 'info',
       title: '版本更新',
       message: '新版本已经下载完成, 是否更新',
@@ -99,7 +99,7 @@ autoUpdater.on('update-downloaded', () => {
       if (response === 0) {
         autoUpdater.quitAndInstall()
       } else {
-        electronWindow.SettingWindow.setProgressBar(-1)
+        electronWindow.Setting.setProgressBar(-1)
       }
     })
 })

@@ -1,5 +1,6 @@
 import { BrowserWindow, ipcMain, shell, clipboard, app } from 'electron'
 import { Key, keyboard } from '@nut-tree/nut-js'
+import killPort from 'kill-port'
 
 import { electronWindow } from '../../main-process/electronWindow'
 
@@ -7,24 +8,22 @@ import { clearAllStore, getStoreSetting, setStoreSetting } from './store'
 import { getProjectNamesTree, nodeCmdDir, openSpawnDir, setDirWinSize } from './openDir'
 import { checkForUpdates } from '../../checkUpdate'
 
-import { BrowserEvent, commonEvent, OpenDirEvent, QuickInputEvent, SettingEvent } from '@common/ipcEvent'
+import { BrowserEvent, CommonEvent, KillPortEvent, OpenDirEvent, QuickInputEvent, SettingEvent } from '@common/ipcEvent'
 
 keyboard.config.autoDelayMs = 0
 
 export const addIpcMain = () => {
-  ipcMain.handle(commonEvent.Copy_Text, (_, content) => {
+  ipcMain.handle(CommonEvent.Copy_Text, (_, content) => {
     clipboard.writeText(content)
   })
-  ipcMain.on(commonEvent.Hide_Focused_Win, () => BrowserWindow.getFocusedWindow()?.hide())
-  ipcMain.on(commonEvent.Open_External, (_, url) => shell.openExternal(url))
+  ipcMain.on(CommonEvent.Hide_Focused_Win, () => BrowserWindow.getFocusedWindow()?.hide())
+  ipcMain.on(CommonEvent.Open_External, (_, url) => shell.openExternal(url))
 
   addQuickOpenDirIpcMain()
-
   addQuickInputIpcMain()
-
   addBrowserIpcMain()
-
   addSettingIpcMain()
+  addKillPortIpcMain()
 }
 
 function addSettingIpcMain() {
@@ -81,4 +80,8 @@ function addQuickOpenDirIpcMain() {
   ipcMain.handle(OpenDirEvent.Get_DirPaths, () => getStoreSetting().projectPaths)
   ipcMain.handle(OpenDirEvent.Get_EditorPath, () => getStoreSetting().vscodePath)
   ipcMain.handle(OpenDirEvent.Get_CmdPath, () => getStoreSetting().cmdPath)
+}
+
+function addKillPortIpcMain() {
+  ipcMain.handle(KillPortEvent.Search_Process, (_, value) => killPort(value))
 }

@@ -17,7 +17,14 @@ export const createTray = () => {
       label: '设置',
       type: 'normal',
       click: () => {
-        electronWindow.SettingWindow?.show()
+        electronWindow.Setting?.show()
+      }
+    },
+    {
+      label: '杀端口号',
+      type: 'normal',
+      click: () => {
+        electronWindow.KillPort?.show()
       }
     },
     { label: '退出', type: 'normal', click: () => process.exit(0) }

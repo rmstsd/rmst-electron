@@ -5,7 +5,7 @@ import path from 'path-browserify'
 import clsx from 'clsx'
 
 import { defaultList } from '../utils'
-import { commonEvent, OpenDirEvent } from '@common/ipcEvent'
+import { CommonEvent, OpenDirEvent } from '@common/ipcEvent'
 
 interface DirNamesTree {
   name: string
@@ -61,7 +61,7 @@ const DirSearch = () => {
 
   const onConfirm = (projectPath: string) => {
     if (searchUrl) {
-      window.electron.ipcRenderer.send(commonEvent.Open_External, searchUrl)
+      window.electron.ipcRenderer.send(CommonEvent.Open_External, searchUrl)
       hideFocusedWin()
 
       setWd('')
@@ -96,7 +96,7 @@ const DirSearch = () => {
   }
 
   function hideFocusedWin() {
-    window.electron.ipcRenderer.send(commonEvent.Hide_Focused_Win)
+    window.electron.ipcRenderer.send(CommonEvent.Hide_Focused_Win)
   }
 
   const onKeyDown = (evt: React.KeyboardEvent<HTMLInputElement>) => {
