@@ -1,7 +1,7 @@
 {
   "name": "rmst-tools",
   "private": true,
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "rmst 工具",
   "main": "./out/main/index.js",
   "author": "rmst.com",
