@@ -16,7 +16,8 @@
     "build:linux": "electron-vite build && electron-builder --linux --config electron-builder-config",
     "release-it": "release-it patch",
     "upload": "node upload.js",
-    "rm-dist": "ts-node-transpile-only deleteDist"
+    "rm-dist": "ts-node-transpile-only deleteDist",
+    "icon-builder": "electron-icon-builder --input=E:/rmst-tools/resources/icon.png --output=./resources"
   },
   "dependencies": {
     "@arco-design/web-react": "^2.58.3",

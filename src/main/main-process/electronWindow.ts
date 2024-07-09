@@ -1,6 +1,7 @@
 import { is } from '@electron-toolkit/utils'
 import { BrowserWindow, shell } from 'electron'
 import path from 'node:path'
+import { iconPath } from './iconPath'
 
 type IElectronWindow = {
   Setting: BrowserWindow
@@ -12,11 +13,6 @@ type IElectronWindow = {
 export const electronWindow = {} as IElectronWindow
 
 const preloadPath = path.join(__dirname, '../preload/index.js')
-
-import icon from '../../../resources/icon.png?asset'
-
-// export const iconPath = path.resolve(app.getAppPath(), 'icon.png')
-// export const trayPath = path.resolve(app.getAppPath(), 'icon.png')
 
 const loadWindow = (win: BrowserWindow, query: Record<string, string>) => {
   const queryString = '?' + new URLSearchParams(query).toString()
@@ -57,7 +53,7 @@ function createOpenDirWindow() {
 
 function createSettingWindow() {
   const win = new BrowserWindow({
-    icon,
+    icon: iconPath,
     skipTaskbar: false,
     show: false,
     webPreferences: {
@@ -94,7 +90,7 @@ function createQuickInputWindow() {
 
 function createKillPortWindow() {
   const win = new BrowserWindow({
-    icon,
+    icon: iconPath,
     skipTaskbar: false,
     show: false,
     webPreferences: {

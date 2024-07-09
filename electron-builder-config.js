@@ -15,7 +15,7 @@ module.exports = {
   asarUnpack: ['resources/**'],
   win: {
     executableName: 'rmst-tools',
-    icon: 'resources/icon.png'
+    icon: 'resources/icons/win/icon.ico'
   },
   nsis: {
     artifactName: '${name}-${version}-setup.${ext}',
