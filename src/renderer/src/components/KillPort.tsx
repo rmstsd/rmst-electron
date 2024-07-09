@@ -36,7 +36,7 @@ export default function KillPort() {
   }
 
   return (
-    <div style={{ padding: 40 }}>
+    <div className="p-[40px]">
       <Form form={form}>
         <Form.Item label="端口号" field="port" rules={[{ required: true }]}>
           <InputNumber ref={ref} placeholder="端口号" />

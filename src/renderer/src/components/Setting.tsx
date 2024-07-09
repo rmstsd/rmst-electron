@@ -42,7 +42,7 @@ export default function SettingPage() {
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'center', fontSize: 20, gap: 10, marginTop: 5 }}>
+      <div className="flex justify-center gap-[10px] mt-[5px] text-[20px]">
         <div>
           name: <Tag size="large">{baseInfo.name}</Tag>
         </div>
@@ -53,11 +53,11 @@ export default function SettingPage() {
           version: <Tag size="large">{baseInfo.version}</Tag>
         </div>
       </div>
-      <Form style={{ paddingRight: '10%' }} initialValues={ini} form={form} autoComplete="off" onSubmit={onSubmit}>
-        <Form.Item style={{ marginTop: 20 }} label=" " className="sticky-top-0">
-          <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
+      <Form className="pr-[10%]" initialValues={ini} form={form} autoComplete="off" onSubmit={onSubmit}>
+        <Form.Item label=" " className="sticky top-0 z-10 mt-[20px] bg-white">
+          <div className="flex items-center gap-[20px]">
             <h2>设置</h2>
-            <Button type="primary" htmlType="submit" style={{ position: 'sticky' }}>
+            <Button type="primary" htmlType="submit">
               Submit
             </Button>
             <Button type="primary" status="danger" onClick={clearEleStore}>
@@ -93,7 +93,7 @@ export default function SettingPage() {
                 <div>
                   {fields.map((item, index) => {
                     return (
-                      <div key={item.key} style={{ display: 'flex', gap: 10 }}>
+                      <div key={item.key} className="flex gap-[10px]">
                         <Form.Item field={item.field}>
                           <Input placeholder="例如: E:\project" />
                         </Form.Item>
@@ -102,7 +102,7 @@ export default function SettingPage() {
                           shape="circle"
                           status="danger"
                           onClick={() => remove(index)}
-                          style={{ flexShrink: 0 }}
+                          className="shrink-0"
                         />
                       </div>
                     )
@@ -121,7 +121,7 @@ export default function SettingPage() {
                 <div>
                   {fields.map((item, index) => {
                     return (
-                      <div key={item.key} style={{ display: 'flex', gap: 10 }}>
+                      <div key={item.key} className="flex gap-[10px]">
                         <Form.Item field={item.field}>
                           <Input placeholder="任意字符串" />
                         </Form.Item>
@@ -129,7 +129,7 @@ export default function SettingPage() {
                           icon={<IconDelete />}
                           shape="circle"
                           status="danger"
-                          style={{ flexShrink: 0 }}
+                          className="shrink-0"
                           onClick={() => remove(index)}
                         />
                       </div>

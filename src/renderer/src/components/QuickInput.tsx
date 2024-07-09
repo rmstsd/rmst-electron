@@ -1,5 +1,8 @@
 import { useLayoutEffect, useState } from 'react'
 import { QuickInputEvent, SettingEvent } from '@common/ipcEvent'
+import { Button } from '@arco-design/web-react'
+import clsx from 'clsx'
+import ResizeObserver from 'rc-resize-observer'
 
 // 来自 @nut-tree/nut-js
 enum Key {
@@ -139,21 +142,12 @@ enum Key {
 }
 const Num = () => {
   useLayoutEffect(() => {
-    document.body.style.width = '160px'
-
     getContent()
 
     document.addEventListener('visibilitychange', () => {
       getContent()
     })
   }, [])
-
-  useLayoutEffect(() => {
-    window.electron.ipcRenderer.send(QuickInputEvent.Set_Num_Win_Size, {
-      width: document.body.offsetWidth,
-      height: document.body.offsetHeight
-    })
-  })
 
   const pressChar = (key: Key) => {
     window.electron.ipcRenderer.send(QuickInputEvent.Press_Char, key)
@@ -172,8 +166,13 @@ const Num = () => {
   }
 
   return (
-    <div style={{ userSelect: 'none', padding: '3%' }}>
-      {/* <div className="parent" style={{ paddingBottom: 0 }}>
+    <ResizeObserver
+      onResize={size => {
+        window.electron.ipcRenderer.send(QuickInputEvent.Set_Num_Win_Size, { width: size.width, height: size.height })
+      }}
+    >
+      <div className="select-none p-[3%]">
+        {/* <div className="parent" style={{ paddingBottom: 0 }}>
         <div className="div1 win-drag">
           <button className="win-not-drag" onClick={hideNumWin}>
             x
@@ -232,32 +231,29 @@ const Num = () => {
 
       <hr /> */}
 
-      <div className="win-drag" style={{ height: 22, backgroundColor: 'orange', marginBottom: 4, display: 'flex' }}>
-        <button className="win-not-drag" style={{ height: '100%' }} onClick={hideNumWin}>
-          x
-        </button>
-      </div>
+        <div className="win-drag h-[22px] bg-orange-400 flex mb-[5px]">
+          <Button size="mini" className={clsx('win-not-drag h-full')} onClick={hideNumWin}>
+            x
+          </Button>
+        </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-        {contentList.map((item, index) => (
-          <button
-            key={index}
-            style={{
-              display: 'block',
-              width: '100%',
-              height: 30,
-              textAlign: 'left',
-              cursor: 'pointer'
-            }}
-            onClick={() => {
-              window.electron.ipcRenderer.invoke(QuickInputEvent.Copy_And_Paste, item).then(hideNumWin)
-            }}
-          >
-            {item}
-          </button>
-        ))}
+        <div className="flex flex-col gap-[6px]">
+          {contentList.map((item, index) => (
+            <Button
+              size="small"
+              key={index}
+              type="default"
+              className="!border-gray-300 !text-gray-800"
+              onClick={() => {
+                window.electron.ipcRenderer.invoke(QuickInputEvent.Copy_And_Paste, item).then(hideNumWin)
+              }}
+            >
+              {item}
+            </Button>
+          ))}
+        </div>
       </div>
-    </div>
+    </ResizeObserver>
   )
 }
 

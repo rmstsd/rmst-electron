@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 * {
   box-sizing: border-box;
 }
@@ -6,10 +10,6 @@ body,
 #root {
   display: flow-root;
   // height: 100%;
-}
-body {
-  margin: 0;
-  // overflow: hidden;
 }
 
 .win-drag {
@@ -61,23 +61,6 @@ body {
     border-radius: 50%;
     cursor: move;
   }
-}
-
-.s-res {
-  max-height: 200px;
-  overflow: auto;
-  border: 1px solid #ddd;
-  box-shadow: 0 0 10px 10px #aaa;
-  position: absolute;
-  z-index: 2;
-  left: 0;
-  right: 0;
-}
-
-.ani-btn {
-  position: fixed;
-  left: 0;
-  z-index: 10;
 }
 
 .option-item {
@@ -175,14 +158,4 @@ body {
 }
 .div18 {
   grid-area: 5 / 3 / 6 / 4;
-}
-
-.sticky-top-0 {
-  position: sticky;
-  top: 0;
-  z-index: 5;
-  background-color: #fff;
-  border-bottom: 1px solid #ddd;
-  margin-top: 0 !important;
-  padding: 10px 0;
 }

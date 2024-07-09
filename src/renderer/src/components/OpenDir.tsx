@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Button, Input, Message } from '@arco-design/web-react'
 import path from 'path-browserify'
+import ResizeObserver from 'rc-resize-observer'
 
 import clsx from 'clsx'
 
@@ -32,14 +33,8 @@ const DirSearch = () => {
       }
     }
 
-    const ob = new ResizeObserver(() => {
-      window.electron.ipcRenderer.send(OpenDirEvent.Set_Dir_Win_Size, document.body.offsetHeight)
-    })
-    ob.observe(document.body)
-
     return () => {
       document.onvisibilitychange = null
-      ob.disconnect()
     }
   }, [])
 
@@ -145,59 +140,63 @@ const DirSearch = () => {
   })()
 
   return (
-    <div className="dir-search">
-      <section style={{ position: 'relative' }}>
-        <Input
-          ref={inputRef}
-          placeholder="人美声甜"
-          value={wd}
-          onChange={value => {
-            setSelectIndex(0)
-            setWd(value)
-          }}
-          onPressEnter={() => onConfirm(flatDirNames[selectIndex])}
-          style={{ height: 60, borderRadius: 0, fontSize: 18, borderColor: 'transparent' }}
-          className="s-input"
-          onKeyDown={onKeyDown}
-        />
-        <div className="s-tipInfo win-drag">{tipInfo}</div>
-      </section>
-
-      {flatDirNames.length !== 0 && (
-        <section className="search-list arco-select-popup" style={{ borderRadius: 0 }}>
-          {flatDirNames.map((item, index) => (
-            <div
-              className={clsx('arco-select-option option-item', {
-                'arco-select-option-hover': selectIndex === index
-              })}
-              key={index}
-              onClick={() => onConfirm(item)}
-              style={{ fontSize: 16, display: 'flex', justifyContent: 'space-between' }}
-            >
-              <span>
-                {findAllChunks(findPosIndexList(wd, item), item).map(chunkItem =>
-                  chunkItem.highLight ? (
-                    <b style={{ color: '#5454ff' }}>{item.slice(chunkItem.start, chunkItem.end)}</b>
-                  ) : (
-                    <span>{item.slice(chunkItem.start, chunkItem.end)}</span>
-                  )
-                )}
-              </span>
-
-              <Button
-                type={isCmd && selectIndex === index ? 'primary' : 'outline'}
-                onClick={evt => {
-                  evt.stopPropagation()
-                  openWithCmd(item)
-                }}
-              >
-                cmd
-              </Button>
-            </div>
-          ))}
+    <ResizeObserver
+      onResize={size => {
+        window.electron.ipcRenderer.send(OpenDirEvent.Set_Dir_Win_Size, size.height)
+      }}
+    >
+      <div>
+        <section className="relative">
+          <Input
+            ref={inputRef}
+            placeholder="人美声甜"
+            value={wd}
+            onChange={value => {
+              setSelectIndex(0)
+              setWd(value)
+            }}
+            onPressEnter={() => onConfirm(flatDirNames[selectIndex])}
+            className="h-[60px] border-none text-[18px]"
+            onKeyDown={onKeyDown}
+          />
+          <div className="s-tipInfo win-drag">{tipInfo}</div>
         </section>
-      )}
-    </div>
+
+        {flatDirNames.length !== 0 && (
+          <section className="arco-select-popup border-none">
+            {flatDirNames.map((item, index) => (
+              <div
+                className={clsx('arco-select-option option-item !text-[16px] flex justify-between', {
+                  'arco-select-option-hover': selectIndex === index
+                })}
+                key={index}
+                onClick={() => onConfirm(item)}
+              >
+                <span>
+                  {findAllChunks(findPosIndexList(wd, item), item).map(chunkItem =>
+                    chunkItem.highLight ? (
+                      <b className="text-[#5454ff]">{item.slice(chunkItem.start, chunkItem.end)}</b>
+                    ) : (
+                      <span>{item.slice(chunkItem.start, chunkItem.end)}</span>
+                    )
+                  )}
+                </span>
+
+                <Button
+                  type={isCmd && selectIndex === index ? 'primary' : 'outline'}
+                  onClick={evt => {
+                    evt.stopPropagation()
+                    openWithCmd(item)
+                  }}
+                >
+                  cmd
+                </Button>
+              </div>
+            ))}
+          </section>
+        )}
+      </div>
+    </ResizeObserver>
   )
 }
 

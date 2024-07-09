@@ -74,8 +74,8 @@ function createQuickInputWindow() {
     show: false,
     focusable: false,
     resizable: false,
-    width: 240,
-    height: 320,
+    width: 200,
+    height: 100,
     alwaysOnTop: true,
     webPreferences: {
       preload: preloadPath,
