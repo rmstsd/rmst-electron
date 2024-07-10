@@ -14,8 +14,7 @@
     "build:mac": "electron-vite build && electron-builder --mac --config electron-builder-config",
     "build:linux": "electron-vite build && electron-builder --linux --config electron-builder-config",
     "release-it": "release-it patch",
-    "upload": "node upload.js",
-    "rm-dist": "ts-node-transpile-only deleteDist",
+    "rm-dist": "node deleteDist.mjs",
     "icon-builder": "electron-icon-builder --input=E:/rmst-tools/resources/icon.png --output=./resources"
   },
   "dependencies": {
