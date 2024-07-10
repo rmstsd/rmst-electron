@@ -1,12 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Button, Input, Message } from '@arco-design/web-react'
 import path from 'path-browserify'
-import ResizeObserver from 'rc-resize-observer'
-
 import clsx from 'clsx'
 
 import { defaultList } from '../utils'
 import { CommonEvent, OpenDirEvent } from '@common/ipcEvent'
+import ResizeObserver from '@renderer/component/ResizeObserver'
 
 interface DirNamesTree {
   name: string

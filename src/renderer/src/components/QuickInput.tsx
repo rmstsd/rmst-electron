@@ -2,7 +2,7 @@ import { useLayoutEffect, useState } from 'react'
 import { QuickInputEvent, SettingEvent } from '@common/ipcEvent'
 import { Button } from '@arco-design/web-react'
 import clsx from 'clsx'
-import ResizeObserver from 'rc-resize-observer'
+import ResizeObserver from '@renderer/component/ResizeObserver'
 
 // 来自 @nut-tree/nut-js
 enum Key {
@@ -172,65 +172,6 @@ const Num = () => {
       }}
     >
       <div className="select-none p-[3%]">
-        {/* <div className="parent" style={{ paddingBottom: 0 }}>
-        <div className="div1 win-drag">
-          <button className="win-not-drag" onClick={hideNumWin}>
-            x
-          </button>
-        </div>
-
-        <button className="div2" onClick={() => pressChar(Key.Divide)}>
-          /
-        </button>
-        <button className="div3" onClick={() => pressChar(Key.Multiply)}>
-          *
-        </button>
-        <button className="div4" onClick={() => pressChar(Key.Subtract)}>
-          -
-        </button>
-        <button className="div5" onClick={() => pressChar(Key.Num7)}>
-          7
-        </button>
-        <button className="div6" onClick={() => pressChar(Key.Num8)}>
-          8
-        </button>
-        <button className="div7" onClick={() => pressChar(Key.Num9)}>
-          9
-        </button>
-        <button className="div8" onClick={() => pressChar(Key.Add)}>
-          +
-        </button>
-        <button className="div9" onClick={() => pressChar(Key.Num4)}>
-          4
-        </button>
-        <button className="div10" onClick={() => pressChar(Key.Num5)}>
-          5
-        </button>
-        <button className="div11" onClick={() => pressChar(Key.Num6)}>
-          6
-        </button>
-        <button className="div12" onClick={() => pressChar(Key.Num1)}>
-          1
-        </button>
-        <button className="div13" onClick={() => pressChar(Key.Num2)}>
-          2
-        </button>
-        <button className="div14" onClick={() => pressChar(Key.Num3)}>
-          3
-        </button>
-        <button className="div15" onClick={() => pressChar(Key.Enter)} style={{ padding: 0 }}>
-          enter
-        </button>
-        <button className="div16" onClick={() => pressChar(Key.Num0)}>
-          0
-        </button>
-        <button className="div17" onClick={() => pressChar(Key.Decimal)}>
-          .
-        </button>
-      </div>
-
-      <hr /> */}
-
         <div className="win-drag h-[22px] bg-orange-400 flex mb-[5px]">
           <Button size="mini" className={clsx('win-not-drag h-full')} onClick={hideNumWin}>
             x
