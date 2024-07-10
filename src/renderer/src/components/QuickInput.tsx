@@ -168,7 +168,7 @@ const Num = () => {
   return (
     <ResizeObserver
       onResize={size => {
-        window.electron.ipcRenderer.send(QuickInputEvent.Set_Num_Win_Size, { width: size.width, height: size.height })
+        window.electron.ipcRenderer.send(QuickInputEvent.Set_Size, { width: size.width, height: size.height })
       }}
     >
       <div className="select-none p-[3%]">

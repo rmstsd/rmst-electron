@@ -56,7 +56,7 @@ function addQuickInputIpcMain() {
   ipcMain.handle(QuickInputEvent.Hide_Num_Win, () => {
     electronWindow.QuickInput.hide()
   })
-  ipcMain.on(QuickInputEvent.Set_Num_Win_Size, (_, { width, height }) => {
+  ipcMain.on(QuickInputEvent.Set_Size, (_, { width, height }) => {
     electronWindow.QuickInput.setBounds({ width: parseInt(width), height: parseInt(height) })
   })
   ipcMain.on(QuickInputEvent.Press_Char, (_, value: Key) => {
