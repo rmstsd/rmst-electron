@@ -33,13 +33,11 @@
     "fs-extra": "^11.2.0",
     "https-proxy-agent": "^7.0.5",
     "kill-port": "^2.0.1",
-    "node-cmd": "^5.0.0",
     "path-browserify": "^1.0.1",
     "postcss": "^8.4.39",
     "rc-resize-observer": "^1.4.0",
     "react-router-dom": "^6.21.1",
     "tailwindcss": "^3.4.4",
-    "ts-node": "^10.9.2",
     "uiohook-napi": "^1.5.2",
     "zustand": "^4.4.7"
   },
@@ -60,7 +58,6 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "release-it": "^17.2.1",
-    "ts-node-dev": "^2.0.0",
     "typescript": "^5.1.6",
     "vite": "^4.4.9"
   }
