@@ -2554,9 +2554,9 @@ electron-store@^8.1.0:
     type-fest "^2.17.0"
 
 electron-to-chromium@^1.4.820:
-  version "1.4.821"
-  resolved "https://repo.huaweicloud.com/repository/npm/electron-to-chromium/-/electron-to-chromium-1.4.821.tgz#3e39ffe2f76e4b3fef6c496f28c5e54fdc4ff714"
-  integrity sha512-BgKQiKiU0VwOH5U2sTKiKkvYzl3Tyodr7fgVGr8/vtPXO+nAG3FE4QMlagZiIZWmvjKsYsv2YpeE3M1lhuYO5A==
+  version "1.4.822"
+  resolved "https://repo.huaweicloud.com/repository/npm/electron-to-chromium/-/electron-to-chromium-1.4.822.tgz#17511699c1573bb6bf510f27fd2c19e379e9da43"
+  integrity sha512-qJzHIt4dRRFKjHHvaExCrG95F65kUP3xysaEZ4I2+/R/uIyr5Ar5g/rkAnrRz0parRUYwzpqN8Pz1HgoiYQPpg==
 
 electron-updater@^6.1.1:
   version "6.2.1"
@@ -4454,11 +4454,6 @@ node-fetch@3.3.2:
     fetch-blob "^3.1.4"
     formdata-polyfill "^4.0.10"
 
-node-gyp-build@4.x.x:
-  version "4.8.1"
-  resolved "https://repo.huaweicloud.com/repository/npm/node-gyp-build/-/node-gyp-build-4.8.1.tgz#976d3ad905e71b76086f4f0b0d3637fe79b6cda5"
-  integrity sha512-OSs33Z9yWr148JZcbZd5WiAXhh/n9z8TxQcdMhIOlpN9AhWpLfvVFO73+m77bBABQMaY9XSvIa+qk0jlI7Gcaw==
-
 node-releases@^2.0.14:
   version "2.0.14"
   resolved "https://repo.huaweicloud.com/repository/npm/node-releases/-/node-releases-2.0.14.tgz#2ffb053bceb8b2be8495ece1ab6ce600c4461b0b"
@@ -5784,7 +5779,6 @@ stdin-discarder@^0.2.1:
   integrity sha512-UhDfHmA92YAlNnCfhmq0VeNL5bDbiZGg7sZ2IvPsXubGkiNa9EC+tUTsjBRsYUAz87btI6/1wf4XoVvQ3uRnmQ==
 
 "string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
-  name string-width-cjs
   version "4.2.3"
   resolved "https://repo.huaweicloud.com/repository/npm/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -5835,7 +5829,6 @@ string_decoder@~1.1.1:
     safe-buffer "~5.1.0"
 
 "strip-ansi-cjs@npm:strip-ansi@^6.0.1", strip-ansi@^6.0.0, strip-ansi@^6.0.1:
-  name strip-ansi-cjs
   version "6.0.1"
   resolved "https://repo.huaweicloud.com/repository/npm/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
   integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
@@ -6135,13 +6128,6 @@ typescript@^5.1.6, typescript@^5.3.3:
   resolved "https://repo.huaweicloud.com/repository/npm/typescript/-/typescript-5.5.3.tgz#e1b0a3c394190838a0b168e771b0ad56a0af0faa"
   integrity sha512-/hreyEujaB0w76zKo6717l3L0o/qEUtRgdvUBvlkhoWeOVMjMuHNHk0BRBzikzuGDqNmPQbg5ifMEqsHLiIUcQ==
 
-uiohook-napi@^1.5.2:
-  version "1.5.4"
-  resolved "https://repo.huaweicloud.com/repository/npm/uiohook-napi/-/uiohook-napi-1.5.4.tgz#8838918c87339f183e606db90288fdbf0581f946"
-  integrity sha512-7vPVDNwgb6MwTgviA/dnF2MrW0X5xm76fAqaOAC3cEKkswqAZOPw1USu14Sr6383s5qhXegcJaR63CpJOPCNAg==
-  dependencies:
-    node-gyp-build "4.x.x"
-
 undici-types@~5.26.4:
   version "5.26.5"
   resolved "https://repo.huaweicloud.com/repository/npm/undici-types/-/undici-types-5.26.5.tgz#bcd539893d00b56e964fd2657a4866b221a65617"
@@ -6347,7 +6333,6 @@ windows-release@^5.0.1:
     execa "^5.1.1"
 
 "wrap-ansi-cjs@npm:wrap-ansi@^7.0.0", wrap-ansi@^7.0.0:
-  name wrap-ansi-cjs
   version "7.0.0"
   resolved "https://repo.huaweicloud.com/repository/npm/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
   integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
