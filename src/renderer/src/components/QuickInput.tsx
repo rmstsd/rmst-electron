@@ -2,7 +2,7 @@ import { useLayoutEffect, useState } from 'react'
 import { QuickInputEvent, SettingEvent } from '@common/ipcEvent'
 import { Button } from '@arco-design/web-react'
 import clsx from 'clsx'
-import ResizeObserver from '@renderer/component/ResizeObserver'
+import ResizeObserver from 'rc-resize-observer'
 
 // 来自 @nut-tree/nut-js
 enum Key {

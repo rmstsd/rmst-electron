@@ -9,8 +9,6 @@ export const addShortcut = () => {
       electronWindow.OpenDir.hide()
     } else {
       electronWindow.OpenDir.show()
-      electronWindow.OpenDir.setSkipTaskbar(true)
-      electronWindow.OpenDir.removeMenu()
     }
   })
 

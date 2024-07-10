@@ -26,7 +26,7 @@ export const nodeCmdDir = (_, dirPath) => {
 
 export const setDirWinSize = (_, value) => {
   const { x, y } = electronWindow.OpenDir.getBounds()
-  electronWindow.OpenDir.setBounds({ x: x + 1, y: y + 1, width: 800, height: value })
+  electronWindow.OpenDir.setBounds({ x, y, width: 800, height: parseInt(value) })
 }
 
 export const getProjectNamesTree = () => {

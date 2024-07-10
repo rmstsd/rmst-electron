@@ -5,7 +5,7 @@ import clsx from 'clsx'
 
 import { defaultList } from '../utils'
 import { CommonEvent, OpenDirEvent } from '@common/ipcEvent'
-import ResizeObserver from '@renderer/component/ResizeObserver'
+import ResizeObserver from 'rc-resize-observer'
 
 interface DirNamesTree {
   name: string
