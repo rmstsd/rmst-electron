@@ -22,7 +22,8 @@ function handleNumWindow() {
     electronWindow.QuickInput.hide()
   } else {
     const cursorCoord = screen.getCursorScreenPoint()
-    electronWindow.QuickInput.setBounds({ x: cursorCoord.x - 10, y: cursorCoord.y - 10 })
+
+    electronWindow.QuickInput.setPosition(cursorCoord.x - 10, cursorCoord.y - 10)
     electronWindow.QuickInput.show()
   }
 }

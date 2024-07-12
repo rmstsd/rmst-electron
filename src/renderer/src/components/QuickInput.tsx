@@ -171,7 +171,7 @@ const Num = () => {
         window.electron.ipcRenderer.send(QuickInputEvent.Set_Size, { width: size.width, height: size.height })
       }}
     >
-      <div className="select-none p-[3%]">
+      <div className="select-none p-[6px] w-[200px]">
         <div className="win-drag h-[22px] bg-orange-400 flex mb-[5px]">
           <Button size="mini" className={clsx('win-not-drag h-full')} onClick={hideNumWin}>
             x
