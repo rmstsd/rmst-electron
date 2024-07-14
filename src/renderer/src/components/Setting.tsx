@@ -2,7 +2,8 @@ import { Button, Form, Input, Message, Tag } from '@arco-design/web-react'
 import { IconDelete } from '@arco-design/web-react/icon'
 import { useEffect, useState } from 'react'
 
-import { SettingEvent } from '@common/ipcEvent'
+import { checkUpdate, clearStore, getBaseInfo, getSetting, saveSetting } from '@renderer/ipc/common'
+import { SettingData } from '@common/type'
 
 export default function SettingPage() {
   const [form] = Form.useForm()
@@ -10,23 +11,22 @@ export default function SettingPage() {
   const [baseInfo, setBaseInfo] = useState({ appPath: '', version: '', name: '' })
 
   useEffect(() => {
-    window.electron.ipcRenderer.invoke(SettingEvent.Get_Setting).then(data => {
+    getSetting().then(data => {
       form.setFieldsValue(data)
     })
-    window.electron.ipcRenderer.invoke(SettingEvent.Get_Base_Info).then(data => {
+    getBaseInfo().then(data => {
       setBaseInfo(data)
     })
   }, [])
 
-  const onSubmit = value => {
-    console.log(value)
-    window.electron.ipcRenderer.invoke(SettingEvent.Save_Setting, value).then(() => {
+  const onSubmit = (value: SettingData) => {
+    saveSetting(value).then(() => {
       Message.success('保存成功')
     })
   }
 
   const clearEleStore = () => {
-    window.electron.ipcRenderer.invoke(SettingEvent.Clear_Ele_Store).then(() => {
+    clearStore().then(() => {
       Message.info('已清除')
     })
   }
@@ -68,9 +68,7 @@ export default function SettingPage() {
               type="primary"
               onClick={() => {
                 setCuLoading(true)
-                window.electron.ipcRenderer.invoke(SettingEvent.Check_Update).finally(() => {
-                  setCuLoading(false)
-                })
+                checkUpdate().finally(() => setCuLoading(false))
               }}
             >
               检查更新

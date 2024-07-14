@@ -1,9 +1,8 @@
 import { autoUpdater } from 'electron-updater'
-import { app, dialog } from 'electron'
+import { dialog } from 'electron'
 import log from 'electron-log/main'
 import { electronWindow } from './main-process/electronWindow'
 import { is } from '@electron-toolkit/utils'
-import path from 'node:path'
 
 log.transports.file.level = 'info'
 autoUpdater.logger = log
@@ -13,7 +12,7 @@ if (is.dev) {
   autoUpdater.forceDevUpdateConfig = true
 }
 
-export function checkForUpdates() {
+export function checkForUpdate() {
   return autoUpdater.checkForUpdates().catch(err => {
     log.info('checkForUpdates 失败', err)
 

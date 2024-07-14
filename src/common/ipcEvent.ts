@@ -7,17 +7,10 @@ export enum SettingEvent {
 }
 
 export enum QuickInputEvent {
-  Hide_Num_Win = 'hide-num-win',
-  Set_Size = 'set-num-win-size',
+  Hide_Quick_Input_Win = 'hide-num-win',
+  Set_Quick_Input_Win_Size = 'set-num-win-size',
   Press_Char = 'press-char',
   Copy_And_Paste = 'copy-and-paste'
-}
-
-export enum BrowserEvent {
-  Browser_Minimize = 'browser_Minimize',
-  Browser_Maximize = 'browser_maximize',
-  Browser_Unmaximize = 'browser_unmaximize',
-  Browser_Close = 'browser_close'
 }
 
 export enum OpenDirEvent {
@@ -25,9 +18,8 @@ export enum OpenDirEvent {
   Node_Cmd_Dir = 'node-cmd-dir',
   Set_Dir_Win_Size = 'set-dir-win-size',
   Project_Names_Tree = 'project-names-tree',
-  Get_DirPaths = 'get-dirPaths',
-  Get_EditorPath = 'get-editorPath',
-  Get_CmdPath = 'get-cmdPath'
+  Get_CmdPath = 'get-cmdPath',
+  Hide_DirWindow = 'hide-dirWindow'
 }
 
 export enum CommonEvent {
@@ -37,5 +29,12 @@ export enum CommonEvent {
 }
 
 export enum KillPortEvent {
-  Search_Process = 'search-process'
+  Kill_Port = 'kill-port'
+}
+
+export enum BrowserEvent {
+  Browser_Minimize = 'browser_Minimize',
+  Browser_Maximize = 'browser_maximize',
+  Browser_Unmaximize = 'browser_unmaximize',
+  Browser_Close = 'browser_close'
 }

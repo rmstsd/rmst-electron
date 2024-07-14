@@ -6,24 +6,28 @@ import { electronWindow } from '../../main-process/electronWindow'
 
 import { clearAllStore, getStoreSetting, setStoreSetting } from './store'
 import { getProjectNamesTree, nodeCmdDir, openSpawnDir, setDirWinSize } from './openDir'
-import { checkForUpdates } from '../../checkUpdate'
+import { checkForUpdate } from '../../checkUpdate'
 
 import { BrowserEvent, CommonEvent, KillPortEvent, OpenDirEvent, QuickInputEvent, SettingEvent } from '@common/ipcEvent'
 
 keyboard.config.autoDelayMs = 0
 
 export const addIpcMain = () => {
+  addCommonIpcMain()
+  addQuickOpenDirIpcMain()
+  addQuickInputIpcMain()
+  addSettingIpcMain()
+  addKillPortIpcMain()
+
+  // addBrowserIpcMain()
+}
+
+function addCommonIpcMain() {
   ipcMain.handle(CommonEvent.Copy_Text, (_, content) => {
     clipboard.writeText(content)
   })
   ipcMain.on(CommonEvent.Hide_Focused_Win, () => BrowserWindow.getFocusedWindow()?.hide())
   ipcMain.on(CommonEvent.Open_External, (_, url) => shell.openExternal(url))
-
-  addQuickOpenDirIpcMain()
-  addQuickInputIpcMain()
-  addBrowserIpcMain()
-  addSettingIpcMain()
-  addKillPortIpcMain()
 }
 
 function addSettingIpcMain() {
@@ -34,7 +38,7 @@ function addSettingIpcMain() {
   ipcMain.handle(SettingEvent.Clear_Ele_Store, () => {
     clearAllStore()
   })
-  ipcMain.handle(SettingEvent.Check_Update, () => checkForUpdates())
+  ipcMain.handle(SettingEvent.Check_Update, () => checkForUpdate())
 
   ipcMain.handle(SettingEvent.Get_Base_Info, () => {
     return {
@@ -45,18 +49,9 @@ function addSettingIpcMain() {
   })
 }
 
-function addBrowserIpcMain() {
-  ipcMain.handle(BrowserEvent.Browser_Minimize, () => electronWindow.RmstBrowserWindow.minimize())
-  ipcMain.handle(BrowserEvent.Browser_Maximize, () => electronWindow.RmstBrowserWindow.maximize())
-  ipcMain.handle(BrowserEvent.Browser_Unmaximize, () => electronWindow.RmstBrowserWindow.unmaximize())
-  ipcMain.handle(BrowserEvent.Browser_Close, () => electronWindow.RmstBrowserWindow.close())
-}
-
 function addQuickInputIpcMain() {
-  ipcMain.handle(QuickInputEvent.Hide_Num_Win, () => {
-    electronWindow.QuickInput.hide()
-  })
-  ipcMain.on(QuickInputEvent.Set_Size, (_, { width, height }) => {
+  ipcMain.handle(QuickInputEvent.Hide_Quick_Input_Win, () => electronWindow.QuickInput.hide())
+  ipcMain.on(QuickInputEvent.Set_Quick_Input_Win_Size, (_, { width, height }) => {
     electronWindow.QuickInput.setResizable(true)
     electronWindow.QuickInput.setSize(parseInt(width), parseInt(height))
     electronWindow.QuickInput.setResizable(false)
@@ -73,17 +68,22 @@ function addQuickInputIpcMain() {
 }
 
 function addQuickOpenDirIpcMain() {
-  ipcMain.on(OpenDirEvent.Spawn_Open_Dir, openSpawnDir)
-  ipcMain.on(OpenDirEvent.Node_Cmd_Dir, nodeCmdDir)
-  ipcMain.on(OpenDirEvent.Set_Dir_Win_Size, setDirWinSize)
+  ipcMain.handle(OpenDirEvent.Spawn_Open_Dir, openSpawnDir)
+  ipcMain.handle(OpenDirEvent.Node_Cmd_Dir, nodeCmdDir)
+  ipcMain.handle(OpenDirEvent.Set_Dir_Win_Size, setDirWinSize)
 
   ipcMain.handle(OpenDirEvent.Project_Names_Tree, getProjectNamesTree)
-
-  ipcMain.handle(OpenDirEvent.Get_DirPaths, () => getStoreSetting().projectPaths)
-  ipcMain.handle(OpenDirEvent.Get_EditorPath, () => getStoreSetting().vscodePath)
   ipcMain.handle(OpenDirEvent.Get_CmdPath, () => getStoreSetting().cmdPath)
+  ipcMain.handle(OpenDirEvent.Hide_DirWindow, () => electronWindow.OpenDir.hide())
 }
 
 function addKillPortIpcMain() {
-  ipcMain.handle(KillPortEvent.Search_Process, (_, value) => killPort(value))
+  ipcMain.handle(KillPortEvent.Kill_Port, (_, value) => killPort(value))
+}
+
+function addBrowserIpcMain() {
+  ipcMain.handle(BrowserEvent.Browser_Minimize, () => electronWindow.RmstBrowserWindow.minimize())
+  ipcMain.handle(BrowserEvent.Browser_Maximize, () => electronWindow.RmstBrowserWindow.maximize())
+  ipcMain.handle(BrowserEvent.Browser_Unmaximize, () => electronWindow.RmstBrowserWindow.unmaximize())
+  ipcMain.handle(BrowserEvent.Browser_Close, () => electronWindow.RmstBrowserWindow.close())
 }

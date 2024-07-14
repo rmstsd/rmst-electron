@@ -1,8 +1,8 @@
 import { Button, Form, InputNumber, Message } from '@arco-design/web-react'
-import { KillPortEvent } from '@common/ipcEvent'
 import { useEffect, useRef, useState } from 'react'
+import { killPort } from '@renderer/ipc/killPort'
 
-export default function KillPort() {
+export default function KillPortView() {
   const ref = useRef(null)
 
   useEffect(() => {
@@ -21,8 +21,7 @@ export default function KillPort() {
     await form.validate()
 
     setLoading(true)
-    window.electron.ipcRenderer
-      .invoke(KillPortEvent.Search_Process, form.getFieldValue('port'))
+    killPort(form.getFieldValue('port'))
       .then(res => {
         if (res.code === 0) {
           Message.success({ content: res.stdout, position: 'bottom' })

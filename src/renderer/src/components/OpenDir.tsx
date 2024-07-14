@@ -4,8 +4,15 @@ import path from 'path-browserify'
 import clsx from 'clsx'
 
 import { defaultList } from '../utils'
-import { CommonEvent, OpenDirEvent } from '@common/ipcEvent'
 import ResizeObserver from 'rc-resize-observer'
+import { getSetting, openExternal } from '@renderer/ipc/common'
+import {
+  getProjectNamesTree,
+  hideDirWindow,
+  openWithTerminal,
+  openWithVscode,
+  setDirWindowSize
+} from '@renderer/ipc/openDir'
 
 interface DirNamesTree {
   name: string
@@ -40,23 +47,19 @@ const DirSearch = () => {
   const getInitialData = () => {
     inputRef.current.dom.focus()
 
-    window.electron.ipcRenderer.invoke(OpenDirEvent.Project_Names_Tree).then(data => {
-      Array.isArray(data) && setDirNamesTree(data)
-    })
+    getProjectNamesTree().then(setDirNamesTree)
 
-    Promise.all([
-      window.electron.ipcRenderer.invoke(OpenDirEvent.Get_EditorPath),
-      window.electron.ipcRenderer.invoke(OpenDirEvent.Get_DirPaths)
-    ]).then(([editorPath, dirPaths]) => {
-      const isCan = Boolean(editorPath) && Array.isArray(dirPaths) && dirPaths.length !== 0
+    getSetting().then(data => {
+      const isCan = Boolean(data.vscodePath) && Array.isArray(data.projectPaths) && data.projectPaths.length !== 0
       setIsCanOpenDir(isCan)
     })
   }
 
   const onConfirm = (projectPath: string) => {
     if (searchUrl) {
-      window.electron.ipcRenderer.send(CommonEvent.Open_External, searchUrl)
-      hideFocusedWin()
+      openExternal(searchUrl)
+
+      hideDirWindow()
 
       setWd('')
       return
@@ -73,8 +76,7 @@ const DirSearch = () => {
       if (!projectPath) {
         return
       }
-      window.electron.ipcRenderer.send(OpenDirEvent.Spawn_Open_Dir, projectPath)
-      hideFocusedWin()
+      openWithVscode(projectPath).then(hideDirWindow)
     }
 
     setWd('')
@@ -85,12 +87,7 @@ const DirSearch = () => {
     if (!projectPath) {
       return
     }
-    window.electron.ipcRenderer.send(OpenDirEvent.Node_Cmd_Dir, projectPath)
-    hideFocusedWin()
-  }
-
-  function hideFocusedWin() {
-    window.electron.ipcRenderer.send(CommonEvent.Hide_Focused_Win)
+    openWithTerminal(projectPath).then(hideDirWindow)
   }
 
   const onKeyDown = (evt: React.KeyboardEvent<HTMLInputElement>) => {
@@ -139,11 +136,7 @@ const DirSearch = () => {
   })()
 
   return (
-    <ResizeObserver
-      onResize={size => {
-        window.electron.ipcRenderer.send(OpenDirEvent.Set_Dir_Win_Size, size.height)
-      }}
-    >
+    <ResizeObserver onResize={size => setDirWindowSize(size)}>
       <div>
         <section className="relative">
           <Input

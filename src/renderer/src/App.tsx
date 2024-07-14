@@ -6,14 +6,14 @@ import Setting from './components/Setting'
 import QuickInput from './components/QuickInput'
 
 import rmstBrowser from './rmstBrowser'
-import KillPort from './components/KillPort'
+import KillPortView from './components/KillPort'
 
 const map = {
   OpenDir,
   Setting,
   QuickInput,
   rmstBrowser,
-  KillPort
+  KillPort: KillPortView
 }
 
 const keys = Object.keys(map)
