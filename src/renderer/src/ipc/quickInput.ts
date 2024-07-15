@@ -2,7 +2,7 @@ import { QuickInputEvent } from '@common/ipcEvent'
 import { ipcRenderer } from './ipc'
 
 export function hideQuickInputWin() {
-  return ipcRenderer.invoke(QuickInputEvent.Hide_Num_Win)
+  return ipcRenderer.invoke(QuickInputEvent.Hide_Quick_Input_Win)
 }
 
 export function execQuickInput(content: string) {

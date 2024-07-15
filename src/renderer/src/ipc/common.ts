@@ -24,5 +24,5 @@ export function checkUpdate() {
 }
 
 export function openExternal(url: string) {
-  return ipcRenderer.send(CommonEvent.Open_External, url)
+  return ipcRenderer.invoke(CommonEvent.Open_External, url)
 }

@@ -1,16 +1,13 @@
-import { BrowserWindow, ipcMain, shell, clipboard, app } from 'electron'
-import { Key, keyboard } from '@nut-tree/nut-js'
+import { ipcMain, shell, clipboard } from 'electron'
 import killPort from 'kill-port'
 
 import { electronWindow } from '../../main-process/electronWindow'
+import { BrowserEvent, CommonEvent, KillPortEvent } from '@common/ipcEvent'
+import { addSettingIpcMain } from './settingIpcMain'
+import { addQuickInputIpcMain } from './quickInputIpcMain'
+import { addQuickOpenDirIpcMain } from './quickOpenDirIpcMain'
 
-import { clearAllStore, getStoreSetting, setStoreSetting } from './store'
-import { getProjectNamesTree, nodeCmdDir, openSpawnDir, setDirWinSize } from './openDir'
-import { checkForUpdate } from '../../checkUpdate'
-
-import { BrowserEvent, CommonEvent, KillPortEvent, OpenDirEvent, QuickInputEvent, SettingEvent } from '@common/ipcEvent'
-
-keyboard.config.autoDelayMs = 0
+import { createHandleListener } from './utils'
 
 export const addIpcMain = () => {
   addCommonIpcMain()
@@ -22,59 +19,12 @@ export const addIpcMain = () => {
   // addBrowserIpcMain()
 }
 
+const onCopy = createHandleListener(CommonEvent.Copy_Text)
+const onOpenExternal = createHandleListener(CommonEvent.Open_External)
+
 function addCommonIpcMain() {
-  ipcMain.handle(CommonEvent.Copy_Text, (_, content) => {
-    clipboard.writeText(content)
-  })
-  ipcMain.on(CommonEvent.Hide_Focused_Win, () => BrowserWindow.getFocusedWindow()?.hide())
-  ipcMain.on(CommonEvent.Open_External, (_, url) => shell.openExternal(url))
-}
-
-function addSettingIpcMain() {
-  ipcMain.handle(SettingEvent.Save_Setting, async (_, value) => {
-    setStoreSetting(value)
-  })
-  ipcMain.handle(SettingEvent.Get_Setting, () => getStoreSetting())
-  ipcMain.handle(SettingEvent.Clear_Ele_Store, () => {
-    clearAllStore()
-  })
-  ipcMain.handle(SettingEvent.Check_Update, () => checkForUpdate())
-
-  ipcMain.handle(SettingEvent.Get_Base_Info, () => {
-    return {
-      appPath: app.getAppPath(),
-      version: app.getVersion(),
-      name: app.getName()
-    }
-  })
-}
-
-function addQuickInputIpcMain() {
-  ipcMain.handle(QuickInputEvent.Hide_Quick_Input_Win, () => electronWindow.QuickInput.hide())
-  ipcMain.on(QuickInputEvent.Set_Quick_Input_Win_Size, (_, { width, height }) => {
-    electronWindow.QuickInput.setResizable(true)
-    electronWindow.QuickInput.setSize(parseInt(width), parseInt(height))
-    electronWindow.QuickInput.setResizable(false)
-  })
-  ipcMain.on(QuickInputEvent.Press_Char, (_, value: Key) => {
-    keyboard.type(value)
-  })
-  ipcMain.handle(QuickInputEvent.Copy_And_Paste, async (_, value) => {
-    clipboard.writeText(value)
-
-    await keyboard.pressKey(Key.LeftControl, Key.V)
-    await keyboard.releaseKey(Key.LeftControl, Key.V)
-  })
-}
-
-function addQuickOpenDirIpcMain() {
-  ipcMain.handle(OpenDirEvent.Spawn_Open_Dir, openSpawnDir)
-  ipcMain.handle(OpenDirEvent.Node_Cmd_Dir, nodeCmdDir)
-  ipcMain.handle(OpenDirEvent.Set_Dir_Win_Size, setDirWinSize)
-
-  ipcMain.handle(OpenDirEvent.Project_Names_Tree, getProjectNamesTree)
-  ipcMain.handle(OpenDirEvent.Get_CmdPath, () => getStoreSetting().cmdPath)
-  ipcMain.handle(OpenDirEvent.Hide_DirWindow, () => electronWindow.OpenDir.hide())
+  onCopy((_, content) => clipboard.writeText(content))
+  onOpenExternal((_, url) => shell.openExternal(url))
 }
 
 function addKillPortIpcMain() {

@@ -24,7 +24,6 @@ export enum OpenDirEvent {
 
 export enum CommonEvent {
   Copy_Text = 'copy-text',
-  Hide_Focused_Win = 'hide-focused-win',
   Open_External = 'open-external'
 }
 

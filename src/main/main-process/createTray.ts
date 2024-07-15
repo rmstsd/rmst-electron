@@ -6,9 +6,7 @@ import { iconPath } from './iconPath'
 export const createTray = () => {
   const tray = new Tray(iconPath)
 
-  tray.on('click', () => {
-    // electronWindow.circleWindow.show()
-  })
+  tray.on('click', () => {})
 
   const contextMenu = Menu.buildFromTemplate([
     {

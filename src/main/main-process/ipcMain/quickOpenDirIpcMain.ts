@@ -1,8 +1,21 @@
+import { ipcMain } from 'electron'
+
+import { electronWindow } from '../electronWindow'
+import { getStoreSetting } from '../../store'
+import { OpenDirEvent } from '@common/ipcEvent'
+
+export function addQuickOpenDirIpcMain() {
+  ipcMain.handle(OpenDirEvent.Spawn_Open_Dir, openSpawnDir)
+  ipcMain.handle(OpenDirEvent.Node_Cmd_Dir, nodeCmdDir)
+  ipcMain.handle(OpenDirEvent.Set_Dir_Win_Size, setDirWinSize)
+
+  ipcMain.handle(OpenDirEvent.Project_Names_Tree, getProjectNamesTree)
+  ipcMain.handle(OpenDirEvent.Get_CmdPath, () => getStoreSetting().cmdPath)
+  ipcMain.handle(OpenDirEvent.Hide_DirWindow, () => electronWindow.OpenDir.hide())
+}
+
 import fse from 'fs-extra'
 import { spawn } from 'cross-spawn'
-
-import { getStoreSetting } from './store'
-import { electronWindow } from '../electronWindow'
 
 export const openSpawnDir = (_, dirPath) => {
   const editorPath = getStoreSetting().vscodePath
