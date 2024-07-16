@@ -19,5 +19,3 @@
 > 在设置中保存的笔记列表在这里使用
 
 ![demo](./z_demo/quickInput.png)
-
-> win10-Terminal: %LOCALAPPDATA%\Microsoft\WindowsApps
