@@ -1,14 +1,23 @@
 # windows 客户端
 
-个人日常使用
+# 使用前需要设置一些基本数据
 
-- alt + 空格: 快速(非常快)使用 vscode 打开项目 (同时支持使用命令行打开) (需自行通过鼠标右击托盘图标设置项目集合所在目录)
-  媲美 vscode 的跨字符搜索
+入口在托盘图标 鼠标右击 -> 设置
 
-  ![demo](demo.png)
+![init](./z_demo/init.png)
 
-- alt + n: 屏幕数字小键盘, 对于非全尺寸键盘 输入数字更方便
+## 功能 1
 
-> 从 https://github.com/rmstsd/rmst-electron-old 仓库迁移
+- alt + 空格 在屏幕中间出现搜索框，进⾏跨字符的模糊搜索，回⻋键使⽤ vscode 打开本地硬盘中的项⽬
+
+  - 同时也⽀持在命令⾏内快速打开项⽬路径
+
+  ![demo](./z_demo/demo.png)
+
+- alt + n 快速输⼊任意⽂本内容，⽐如邮箱，⼿机号等，相当于⼀键完成 ctrl+c , ctrl+v 的两步操作
+
+> 在设置中保存的笔记列表在这里使用
+
+![demo](./z_demo/quickInput.png)
 
 > win10-Terminal: %LOCALAPPDATA%\Microsoft\WindowsApps
