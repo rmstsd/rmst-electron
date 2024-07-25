@@ -1,7 +1,7 @@
 import { SettingEvent } from '@common/ipcEvent'
 import { clearAllStore, getStoreSetting, setStoreSetting } from '@main/store'
 import { createHandleListener } from './utils'
-import { app } from 'electron'
+import { app, ipcMain } from 'electron'
 import { checkForUpdate } from '@main/checkUpdate'
 
 const onSaveSetting = createHandleListener(SettingEvent.Save_Setting)
@@ -23,5 +23,10 @@ export function addSettingIpcMain() {
       version: app.getVersion(),
       name: app.getName()
     }
+  })
+
+  ipcMain.handle('Get_isPackaged', () => {
+    console.log(app.isPackaged)
+    return app.isPackaged
   })
 }

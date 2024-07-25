@@ -4,13 +4,18 @@ import { useEffect, useState } from 'react'
 
 import { checkUpdate, clearStore, getBaseInfo, getSetting, saveSetting } from '@renderer/ipc/common'
 import { SettingData } from '@common/type'
+import { ipcRenderer } from '@renderer/ipc/ipc'
 
 export default function SettingPage() {
   const [form] = Form.useForm()
 
   const [baseInfo, setBaseInfo] = useState({ appPath: '', version: '', name: '' })
+  const [isPackaged, setIsPackaged] = useState(false)
 
   useEffect(() => {
+    ipcRenderer.invoke('Get_isPackaged').then(isPackaged => {
+      setIsPackaged(isPackaged)
+    })
     getSetting().then(data => {
       form.setFieldsValue(data)
     })
@@ -51,6 +56,9 @@ export default function SettingPage() {
         </div>
         <div>
           version: <Tag size="large">{baseInfo.version}</Tag>
+        </div>
+        <div>
+          isPackaged: <Tag size="large"> {String(isPackaged)}</Tag>
         </div>
       </div>
       <Form className="pr-[10%]" initialValues={ini} form={form} autoComplete="off" onSubmit={onSubmit}>
